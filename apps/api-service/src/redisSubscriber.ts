@@ -1,15 +1,13 @@
-import Redis from "ioredis";
+import { redis } from "@repo/redis";
 
 export const CALLBACK_QUEUE = "callback-queue";
 
 export class RedisSubscriber {
-  private client: Redis;
+  private client: typeof redis;
   private callbacks: Record<string, (data: Record<string, string>) => void>;
 
   constructor() {
-    const host = process.env.REDIS_HOST || "redis";
-    const port = Number(process.env.REDIS_PORT || 6379);
-    this.client = new Redis({ host, port });
+    this.client = redis
     this.callbacks = {};
     this.runLoop();
   }

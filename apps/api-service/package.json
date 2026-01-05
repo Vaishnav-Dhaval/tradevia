@@ -10,8 +10,6 @@
     "dev:watch": "tsc -b --watch"
   },
   "devDependencies": {
-    "@repo/prisma": "workspace:*",
-    "@repo/redis": "workspace:*",
     "@repo/types": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/cookie-parser": "^1.4.9",
@@ -20,11 +18,12 @@
     "@types/jsonwebtoken": "^9.0.10"
   },
   "dependencies": {
+    "@repo/prisma": "workspace:*",
+    "@repo/redis": "workspace:*",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
-    "ioredis": "^5.7.0",
     "jsonwebtoken": "^9.0.2",
     "zod": "^4.1.11"
   }
