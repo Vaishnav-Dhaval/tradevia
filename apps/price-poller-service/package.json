@@ -13,12 +13,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@repo/redis": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/ws": "^8.18.1"
   },
   "dependencies": {
-    "ioredis": "^5.7.0",
+    "@repo/redis": "workspace:*",
     "ws": "^8.18.3"
   }
 }
