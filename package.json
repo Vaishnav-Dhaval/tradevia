@@ -13,7 +13,10 @@
     "start:price-poller": "cd apps/price-poller-service && pnpm start",
     "dev:api": "cd apps/api-service && pnpm dev",
     "dev:engine": "cd apps/engine-service && pnpm dev",
-    "dev:price-poller": "cd apps/price-poller-service && pnpm dev"
+    "dev:price-poller": "cd apps/price-poller-service && pnpm dev",
+    "prisma:generate": "cd packages/prisma && pnpm prisma generate",
+    "prisma:migrate": "cd packages/prisma && pnpm prisma migrate dev",
+    "prisma:migrate:deploy": "cd packages/prisma && pnpm prisma migrate deploy"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

@@ -1,8 +1,7 @@
 import axios from "axios";
 import { queryClient } from "./queryClient";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://api.100xness.ashishmohapatra.in";
+const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

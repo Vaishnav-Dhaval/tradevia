@@ -1,6 +1,6 @@
 services:
   redis:
-    image: redis:latest
+    image: redis:8.4.0-alpine
     ports:
       - "6379:6379"
 
@@ -10,6 +10,8 @@ services:
       dockerfile: apps/api-service/Dockerfile
     ports:
       - "3001:3001"
+    environment:
+      - REDIS_URL=redis://localhost:6379
     env_file:
       - ./apps/api-service/.env
     depends_on:
@@ -21,6 +23,8 @@ services:
       dockerfile: apps/engine-service/Dockerfile
     ports:
       - "3002:3002"
+    environment:
+      - REDIS_URL=redis://localhost:6379
     env_file:
       - ./apps/engine-service/.env
     depends_on:
@@ -32,6 +36,8 @@ services:
       dockerfile: apps/price-poller-service/Dockerfile
     ports:
       - "3003:3003"
+    environment:
+      - REDIS_URL=redis://localhost:6379
     env_file:
       - ./apps/price-poller-service/.env
     depends_on:

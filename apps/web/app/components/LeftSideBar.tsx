@@ -66,7 +66,7 @@ const LeftSideBar: React.FC = () => {
     const { messages, orderBook, isConnected } = useWs();
     
     React.useEffect(() => {
-        console.log('LeftSideBar orderBook state:', orderBook);
+        // console.log('LeftSideBar orderBook state:', orderBook);
     }, [orderBook]);
 
     const symbolData = React.useMemo(() => {
@@ -89,16 +89,15 @@ const LeftSideBar: React.FC = () => {
     }, [messages]);
 
     const [priceChanges, setPriceChanges] = React.useState<Map<string, boolean>>(new Map());
-    const [previousPrices, setPreviousPrices] = React.useState<Map<string, number>>(new Map());
+    const previousPricesRef = React.useRef<Map<string, number>>(new Map());
 
     React.useEffect(() => {
         const newChanges = new Map<string, boolean>();
-        const newPrices = new Map<string, number>();
 
         symbolData.forEach((data) => {
             const currentPrice = parseFloat(data.data.p);
             const symbol = data.data.s;
-            const previousPrice = previousPrices.get(symbol);
+            const previousPrice = previousPricesRef.current.get(symbol);
 
             if (previousPrice !== undefined) {
                 const isUp = currentPrice > previousPrice;
@@ -107,12 +106,11 @@ const LeftSideBar: React.FC = () => {
                 newChanges.set(symbol, true);
             }
             
-            newPrices.set(symbol, currentPrice);
+            previousPricesRef.current.set(symbol, currentPrice);
         });
 
         setPriceChanges(newChanges);
-        setPreviousPrices(newPrices);
-    }, [symbolData, previousPrices]);
+    }, [symbolData]);
 
     return (
         <div className="w-full bg-white border-r border-gray-200 h-full flex flex-col">
@@ -136,20 +134,20 @@ const LeftSideBar: React.FC = () => {
                         const getBestBid = () => {
                             if (orderBook && orderBook.symbol === data.data.s && orderBook.bids?.length > 0) {
                                 const bid = parseFloat(orderBook.bids[0]?.[0] || '0');
-                                console.log('Getting best bid:', bid, 'from orderbook:', orderBook.bids[0]);
+                                // console.log('Getting best bid:', bid, 'from orderbook:', orderBook.bids[0]);
                                 return bid;
                             }
-                            console.log('No bid data available, orderBook:', orderBook);
+                            // console.log('No bid data available, orderBook:', orderBook);
                             return null;
                         };
                         
                         const getBestAsk = () => {
                             if (orderBook && orderBook.symbol === data.data.s && orderBook.asks?.length > 0) {
                                 const ask = parseFloat(orderBook.asks[0]?.[0] || '0');
-                                console.log('Getting best ask:', ask, 'from orderbook:', orderBook.asks[0]);
+                                // console.log('Getting best ask:', ask, 'from orderbook:', orderBook.asks[0]);
                                 return ask;
                             }
-                            console.log('No ask data available, orderBook:', orderBook);
+                            // console.log('No ask data available, orderBook:', orderBook);
                             return null;
                         };
 
