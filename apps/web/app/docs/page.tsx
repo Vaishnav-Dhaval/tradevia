@@ -10,7 +10,7 @@ const Docs = () => {
         <div className="max-w-5xl mx-auto">
           <div className="text-center my-20">
             <h1 className="text-4xl md:text-6xl font-medium text-black leading-tight mb-6 font-dm-sans tracking-tight">
-              100xness{" "}
+              tradevia{" "}
               <span className="italic font-instrument-serif tracking-normal">
                 Documentation
               </span>
@@ -31,7 +31,7 @@ const Docs = () => {
               <div className="text-center mb-8">
                 <img
                   src="/images/architecture.png"
-                  alt="100xness System Architecture"
+                  alt="tradevia System Architecture"
                   className="w-full max-w-4xl mx-auto border border-gray-200"
                 />
               </div>
@@ -886,24 +886,8 @@ services:
               </h2>
               <p className="text-sm md:text-md text-black mb-8 max-w-2xl mx-auto leading-relaxed font-ibm-plex-mono">
                 Set up your development environment and start building with
-                100xness. Join the world of limitless trading opportunities.
+                tradevia. Join the world of limitless trading opportunities.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-                <Link
-                  href="/marketplace"
-                  className="border-2 bg-black border-black text-white px-8 py-3 hover:bg-gray-800 transition-colors font-dm-sans font-medium text-lg w-full sm:w-auto text-center rounded-4xl"
-                >
-                  Try the Platform
-                </Link>
-                <a
-                  href="https://github.com/ashishmohapatra240/100xness-v2"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border-2 border-black text-black bg-white px-8 py-3 hover:bg-gray-50 transition-colors font-dm-sans font-medium text-lg w-full sm:w-auto text-center rounded-4xl"
-                >
-                  View on GitHub
-                </a>
-              </div>
             </div>
           </div>
         </div>

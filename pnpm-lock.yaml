@@ -20,10 +20,13 @@ importers:
 
   apps/api-service:
     dependencies:
-      '@repo/prisma':
+      '@tradevia/config':
+        specifier: workspace:*
+        version: link:../../packages/config
+      '@tradevia/prisma':
         specifier: workspace:*
         version: link:../../packages/prisma
-      '@repo/redis':
+      '@tradevia/redis':
         specifier: workspace:*
         version: link:../../packages/redis
       cookie-parser:
@@ -45,10 +48,10 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11
     devDependencies:
-      '@repo/types':
+      '@tradevia/types':
         specifier: workspace:*
         version: link:../../packages/types
-      '@repo/typescript-config':
+      '@tradevia/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@types/cookie-parser':
@@ -66,10 +69,10 @@ importers:
 
   apps/engine-service:
     dependencies:
-      '@repo/prisma':
+      '@tradevia/prisma':
         specifier: workspace:*
         version: link:../../packages/prisma
-      '@repo/redis':
+      '@tradevia/redis':
         specifier: workspace:*
         version: link:../../packages/redis
       dotenv:
@@ -79,23 +82,23 @@ importers:
         specifier: ^5.7.0
         version: 5.7.0
     devDependencies:
-      '@repo/types':
+      '@tradevia/types':
         specifier: workspace:*
         version: link:../../packages/types
-      '@repo/typescript-config':
+      '@tradevia/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
 
   apps/price-poller-service:
     dependencies:
-      '@repo/redis':
+      '@tradevia/redis':
         specifier: workspace:*
         version: link:../../packages/redis
       ws:
         specifier: ^8.18.3
         version: 8.18.3
     devDependencies:
-      '@repo/typescript-config':
+      '@tradevia/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@types/ws':
@@ -107,9 +110,6 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.2.3(@types/react@19.1.0)(react@19.2.3)
-      '@repo/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@tailwindcss/postcss':
         specifier: ^4.1.12
         version: 4.1.13
@@ -119,6 +119,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.85.6
         version: 5.87.1(@tanstack/react-query@5.87.1(react@19.2.3))(react@19.2.3)
+      '@tradevia/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.21(postcss@8.5.6)
@@ -165,10 +168,10 @@ importers:
         specifier: ^4.1.5
         version: 4.1.13
     devDependencies:
-      '@repo/eslint-config':
+      '@tradevia/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
-      '@repo/typescript-config':
+      '@tradevia/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@types/node':
@@ -185,6 +188,19 @@ importers:
         version: 9.34.0(jiti@2.5.1)
       typescript:
         specifier: 5.9.2
+        version: 5.9.2
+
+  packages/config:
+    dependencies:
+      dotenv:
+        specifier: ^17.2.2
+        version: 17.2.2
+    devDependencies:
+      '@tradevia/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: ^5.0.0
         version: 5.9.2
 
   packages/eslint-config:
@@ -238,7 +254,7 @@ importers:
         specifier: ^8.16.3
         version: 8.16.3
     devDependencies:
-      '@repo/typescript-config':
+      '@tradevia/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/node':
@@ -256,7 +272,7 @@ importers:
 
   packages/redis:
     dependencies:
-      '@repo/typescript-config':
+      '@tradevia/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       dotenv:
@@ -272,7 +288,7 @@ importers:
 
   packages/types:
     devDependencies:
-      '@repo/typescript-config':
+      '@tradevia/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
 
@@ -287,10 +303,10 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
     devDependencies:
-      '@repo/eslint-config':
+      '@tradevia/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@repo/typescript-config':
+      '@tradevia/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/node':

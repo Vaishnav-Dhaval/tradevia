@@ -37,7 +37,7 @@ const LoginPage = () => {
                         Welcome <span className="italic font-instrument-serif tracking-normal">Back</span>
                     </h1>
                     <p className="text-sm md:text-md text-black mb-4 leading-relaxed font-ibm-plex-mono">
-                        Continue your trading journey with 100xness
+                        Continue your trading journey with tradevia
                     </p>
                 </div>
 

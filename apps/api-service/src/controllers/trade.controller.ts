@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { redis } from "@repo/redis";
-import { prisma } from "@repo/prisma";
+import { redis } from "@tradevia/redis";
+import { prisma } from "@tradevia/prisma";
 import { randomUUID } from "crypto";
 import { RedisSubscriber } from "../redisSubscriber";
 import { CloseOrderBodySchema, CreateOrderBodySchema } from "../schemas/trade.type";

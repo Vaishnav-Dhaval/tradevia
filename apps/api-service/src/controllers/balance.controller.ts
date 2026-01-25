@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
-import { redis } from "@repo/redis"
-import { prisma } from "@repo/prisma"
+import { redis } from "@tradevia/redis"
+import { prisma } from "@tradevia/prisma"
 import { DepositBalanceBodySchema, GetBalanceByAssetParamsSchema } from "../schemas/balance.type";
 
 export const getBalance = async (req: Request, res: Response) => {

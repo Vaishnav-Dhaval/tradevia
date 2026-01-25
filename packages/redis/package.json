@@ -1,5 +1,5 @@
 {
-  "name": "@repo/redis",
+  "name": "@tradevia/redis",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "ioredis": "^5.7.0",
-    "@repo/typescript-config": "workspace:*",
+    "@tradevia/typescript-config": "workspace:*",
     "dotenv": "^17.2.2"
   },
   "devDependencies": {

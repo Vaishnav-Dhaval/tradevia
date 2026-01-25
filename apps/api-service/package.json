@@ -1,7 +1,7 @@
 {
   "name": "api-service",
   "version": "1.0.0",
-  "description": "API service for 100xness trading platform",
+  "description": "API service for tradevia trading platform",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -b",
@@ -10,16 +10,17 @@
     "dev:watch": "tsc -b --watch"
   },
   "devDependencies": {
-    "@repo/types": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@tradevia/types": "workspace:*",
+    "@tradevia/typescript-config": "workspace:*",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10"
   },
   "dependencies": {
-    "@repo/prisma": "workspace:*",
-    "@repo/redis": "workspace:*",
+    "@tradevia/prisma": "workspace:*",
+    "@tradevia/redis": "workspace:*",
+    "@tradevia/config": "workspace:*",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",

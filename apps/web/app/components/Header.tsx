@@ -23,7 +23,7 @@ const Header = () => {
         <Link href="/" className="flex items-center space-x-2">
           <div className="w-2 h-2 bg-black rounded-full"></div>
           <span className="text-xl font-semibold font-ibm-plex-mono">
-            100xness
+            tradevia
           </span>
         </Link>
 

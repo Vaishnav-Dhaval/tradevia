@@ -185,7 +185,7 @@ const Marketplace = () => {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-black rounded-full"></div>
               <h1 className="text-xl font-semibold text-black font-ibm-plex-mono">
-                100xness
+                tradevia
               </h1>
             </div>
 

@@ -1,7 +1,7 @@
 {
-  "name": "@repo/types",
+  "name": "@tradevia/types",
   "version": "1.0.0",
-  "description": "Shared types for 100xness trading platform",
+  "description": "Shared types for tradevia trading platform",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*"
+    "@tradevia/typescript-config": "workspace:*"
   },
   "dependencies": {}
 }

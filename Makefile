@@ -13,6 +13,6 @@ up:
 	docker compose up -d
 
 up-nc:
-	docker compose up -d --build --no-cache
+	docker compose up -d --build
 
 all: down clean build up

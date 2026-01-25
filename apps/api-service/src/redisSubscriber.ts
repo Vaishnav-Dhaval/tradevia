@@ -1,4 +1,4 @@
-import { redis } from "@repo/redis";
+import { redis } from "@tradevia/redis";
 
 export const CALLBACK_QUEUE = "callback-queue";
 

@@ -39,7 +39,7 @@ const RegisterPage = () => {
             <div className="max-w-md w-full mx-auto">
                 <div className="text-center mb-2">
                     <h1 className="text-4xl md:text-5xl font-medium text-black leading-tight mb-4 font-dm-sans tracking-tighter">
-                        Join <span className="italic font-instrument-serif tracking-normal">100xness</span>
+                        Join <span className="italic font-instrument-serif tracking-normal">tradevia</span>
                     </h1>
                     <p className="text-sm md:text-md text-black mb-4 leading-relaxed font-ibm-plex-mono">
                         Start your trading journey with limitless opportunities
