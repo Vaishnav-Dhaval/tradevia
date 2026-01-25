@@ -8,8 +8,8 @@ services:
     build:
       context: .
       dockerfile: apps/api-service/Dockerfile
-    ports:
-      - "3001:3001"
+    # ports:
+    #   - "3001:3001"
     environment:
       - REDIS_URL=redis://localhost:6379
     env_file:
@@ -21,8 +21,8 @@ services:
     build:
       context: .
       dockerfile: apps/engine-service/Dockerfile
-    ports:
-      - "3002:3002"
+    # ports:
+    #   - "3002:3002"
     environment:
       - REDIS_URL=redis://localhost:6379
     env_file:
@@ -34,8 +34,8 @@ services:
     build:
       context: .
       dockerfile: apps/price-poller-service/Dockerfile
-    ports:
-      - "3003:3003"
+    # ports:
+    #   - "3003:3003"
     environment:
       - REDIS_URL=redis://localhost:6379
     env_file:
