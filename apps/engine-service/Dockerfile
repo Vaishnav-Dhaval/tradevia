@@ -1,5 +1,7 @@
 FROM node:22.18-alpine
 
+RUN apk add --no-cache wget
+
 WORKDIR /app
 
 RUN npm install -g pnpm

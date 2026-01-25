@@ -1,10 +1,23 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import http from "http";
 import { redis } from "@repo/redis";
 import { prisma } from "@repo/prisma";
 
 const client = redis.duplicate();
+
+// Health check server
+const healthServer = http.createServer((req, res) => {
+  if (req.url === "/health") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ status: "OK", timestamp: new Date().toISOString() }));
+  } else {
+    res.writeHead(404);
+    res.end();
+  }
+});
+healthServer.listen(3002, () => console.log("Health check available at http://localhost:3002/health"));
 
 type UserBalances = Record<string, number>;
 
