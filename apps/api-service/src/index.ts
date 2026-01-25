@@ -19,7 +19,7 @@ app.use(
       "https://exness.dakshv.in",
       "https://www.exness.dakshv.in",
       "http://exness.dakshv.in",
-      "http://www.exness.dakshv.in",
+      "http://www.exness.dakshv.in"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
