@@ -1,0 +1,27 @@
+{
+  "name": "@tradevia/config",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2"
+  },
+  "devDependencies": {
+    "@tradevia/typescript-config": "workspace:*",
+    "typescript": "^5.0.0"
+  }
+}
