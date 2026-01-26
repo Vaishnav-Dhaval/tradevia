@@ -2,8 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import http from "http";
-import { redis } from "@repo/redis";
-import { prisma } from "@repo/prisma";
+import { redis } from "@tradevia/redis";
+import { prisma } from "@tradevia/prisma";
 
 const client = redis.duplicate();
 

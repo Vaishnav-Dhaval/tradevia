@@ -1,4 +1,4 @@
-# 100xness
+# tradevia
 
 A real-time options trading platform like [Exness](https://www.exness.com/) built with Node.js, Express, PostgreSQL, and Next.js frontend.
 

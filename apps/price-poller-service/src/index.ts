@@ -1,6 +1,6 @@
 import http from "http";
 import { WebSocket } from "ws";
-import { redis } from "@repo/redis";
+import { redis } from "@tradevia/redis";
 
 const url = "wss://ws.backpack.exchange";
 const ws = new WebSocket(url);

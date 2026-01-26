@@ -1,4 +1,4 @@
-import "dotenv/config";
+import { config } from "@tradevia/config";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -8,7 +8,7 @@ import balanceRouter from "./routes/balance.route";
 import candlesRouter from "./routes/candles.route";
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = config.port;
 
 app.use(
   cors({
@@ -16,10 +16,10 @@ app.use(
       "http://localhost:3200",
       "http://localhost:3000",
       "http://localhost:3001",
-      "https://exness.dakshv.in",
-      "https://www.exness.dakshv.in",
-      "http://exness.dakshv.in",
-      "http://www.exness.dakshv.in"
+      "https://api.exness.dakshv.in",
+      "http://api.exness.dakshv.in",
+      "https://www.api.exness.dakshv.in",
+      "http://www.api.exness.dakshv.in"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -62,7 +62,7 @@ app.use(
     res.status(500).json({
       error: "Internal server error",
       message:
-        process.env.NODE_ENV === "development"
+        config.node_env === "development"
           ? err.message
           : "Something went wrong",
     });

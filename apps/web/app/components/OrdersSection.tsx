@@ -45,11 +45,11 @@ const OrdersSection: React.FC = () => {
 
     currentOrders.forEach((currentOrder: Order) => {
       const prevOrder = prevOrders.find((o) => o.id === currentOrder.id);
-      
+
       if (prevOrder && prevOrder.status === "open" && currentOrder.status === "closed") {
         const pnl = currentOrder.pnl || 0;
         const pnlText = pnl >= 0 ? `+$${pnl.toFixed(2)}` : `-$${Math.abs(pnl).toFixed(2)}`;
-        
+
         if (currentOrder.closeReason === "Liquidation" || currentOrder.closeReason === "margin") {
           toast.error(
             `Order Liquidated: ${currentOrder.symbol.toUpperCase()} ${currentOrder.orderType.toUpperCase()} | PnL: ${pnlText}`,
@@ -169,9 +169,6 @@ const OrdersSection: React.FC = () => {
     const entryPrice =
       typeof order.price === "number" ? order.price : parseFloat(order.price);
 
-    // For PnL calculation, use the price at which the order would be closed:
-    // Long orders would be closed at bid price (selling position)
-    // Short orders would be closed at ask price (buying to cover)
     const marketPrice =
       order.orderType === "long" ? currentPrice.bid : currentPrice.ask;
     const quantity =
@@ -223,10 +220,10 @@ const OrdersSection: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white border-t border-gray-200 p-4">
+      <div className="bg-[#0d1117] border-t border-[#30363d] p-4">
         <div className="text-center">
-          <div className="w-8 h-8 border-4 border-gray-300 border-t-black rounded-full animate-spin mx-auto mb-2"></div>
-          <p className="text-sm text-gray-500">Loading orders...</p>
+          <div className="w-8 h-8 border-4 border-[#30363d] border-t-[#00d9ff] rounded-full animate-spin mx-auto mb-2"></div>
+          <p className="text-sm text-[#8b949e]">Loading orders...</p>
         </div>
       </div>
     );
@@ -234,14 +231,14 @@ const OrdersSection: React.FC = () => {
 
   if (error) {
     return (
-      <div className="bg-white border-t border-gray-200 p-4">
+      <div className="bg-[#0d1117] border-t border-[#30363d] p-4">
         <div className="text-center">
-          <p className="text-sm text-red-500">
+          <p className="text-sm text-[#ff4976]">
             Error loading orders: {error?.message || "Unknown error"}
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-2 px-4 py-2 bg-black text-white rounded-4xl text-sm"
+            className="mt-2 px-4 py-2 bg-gradient-to-r from-[#00d9ff] to-[#00b050] text-[#0d1117] rounded-4xl text-sm font-semibold"
           >
             Retry
           </button>
@@ -251,27 +248,25 @@ const OrdersSection: React.FC = () => {
   }
 
   return (
-    <div className="bg-white border-t border-gray-200 h-full flex flex-col">
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 flex-shrink-0">
+    <div className="bg-[#0d1117] border-t border-[#30363d] h-full flex flex-col">
+      <div className="flex items-center justify-between p-4 border-b border-[#30363d] flex-shrink-0">
         <div className="flex space-x-4">
           <button
             onClick={() => setActiveTab("open")}
-            className={`px-4 py-2 text-sm font-medium rounded-4xl transition-colors ${
-              activeTab === "open"
-                ? "bg-black-100 text-black-700"
-                : "text-gray-600 hover:text-gray-900"
-            }`}
+            className={`px-4 py-2 text-sm font-medium rounded-4xl transition-colors ${activeTab === "open"
+                ? "bg-[#21262d] text-[#00d9ff] border border-[#00d9ff]"
+                : "text-[#8b949e] hover:text-[#f0f6fc]"
+              }`}
           >
             Open Orders (
             {orders.filter((o: Order) => o.status === "open").length})
           </button>
           <button
             onClick={() => setActiveTab("all")}
-            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-              activeTab === "all"
-                ? "bg-black-100 text-black-700"
-                : "text-gray-600 hover:text-gray-900"
-            }`}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === "all"
+                ? "bg-[#21262d] text-[#00d9ff] border border-[#00d9ff]"
+                : "text-[#8b949e] hover:text-[#f0f6fc]"
+              }`}
           >
             All Orders ({orders.length})
           </button>
@@ -280,53 +275,53 @@ const OrdersSection: React.FC = () => {
 
       <div className="flex-1 overflow-auto">
         {filteredOrders.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-8 text-center text-[#8b949e]">
             <p>No {activeTab === "open" ? "open " : ""}orders found</p>
           </div>
         ) : (
           <div className="overflow-x-auto h-full">
             <table className="w-full min-w-max">
-              <thead className="bg-gray-50 sticky top-0 z-10">
+              <thead className="bg-[#161b22] sticky top-0 z-10">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Symbol
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Type
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Volume
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Notional
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Open Price
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Close Price
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     PnL
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Leverage
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Take Profit
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Stop Loss
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-[#8b949e] uppercase tracking-wider">
                     Close Reason
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-[#0d1117] divide-y divide-[#30363d]">
                 {filteredOrders.map((order: Order) => {
                   const pnl = calculatePnL(order);
                   const currentPrice = getCurrentPrice(order);
@@ -337,23 +332,22 @@ const OrdersSection: React.FC = () => {
                   return (
                     <tr
                       key={`${order.id}-${order.createdAt}`}
-                      className="hover:bg-gray-50"
+                      className="hover:bg-[#161b22]"
                     >
-                      <td className="px-4 py-3 text-sm font-medium text-gray-900">
+                      <td className="px-4 py-3 text-sm font-medium text-[#f0f6fc]">
                         {order.symbol.toUpperCase()}
                       </td>
                       <td className="px-4 py-3 text-sm">
                         <span
-                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            order.orderType === "long"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
+                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${order.orderType === "long"
+                              ? "bg-[#00b050]/20 text-[#00b050]"
+                              : "bg-[#ff4976]/20 text-[#ff4976]"
+                            }`}
                         >
                           {order.orderType.toUpperCase()}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm font-mono text-gray-900">
+                      <td className="px-4 py-3 text-sm font-mono text-[#f0f6fc]">
                         {(() => {
                           if (!order.quantity) return "---";
                           const qty =
@@ -363,7 +357,7 @@ const OrdersSection: React.FC = () => {
                           return isNaN(qty) ? "---" : qty;
                         })()}
                       </td>
-                      <td className="px-4 py-3 text-sm font-mono text-gray-900">
+                      <td className="px-4 py-3 text-sm font-mono text-[#f0f6fc]">
                         {(() => {
                           if (!order.quantity || !order.price) return "---";
                           const qty =
@@ -379,7 +373,7 @@ const OrdersSection: React.FC = () => {
                           return `$${notional.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                         })()}
                       </td>
-                      <td className="px-4 py-3 text-sm font-mono text-gray-900">
+                      <td className="px-4 py-3 text-sm font-mono text-[#f0f6fc]">
                         $
                         {(() => {
                           if (!order.price) return "---";
@@ -390,7 +384,7 @@ const OrdersSection: React.FC = () => {
                           return isNaN(price) ? "---" : price.toFixed(4);
                         })()}
                       </td>
-                      <td className="px-4 py-3 text-sm font-mono text-gray-900">
+                      <td className="px-4 py-3 text-sm font-mono text-[#f0f6fc]">
                         $
                         {currentPrice && typeof currentPrice === "number"
                           ? currentPrice.toFixed(4)
@@ -399,7 +393,7 @@ const OrdersSection: React.FC = () => {
                       <td className="px-4 py-3 text-sm font-mono">
                         <span
                           className={
-                            isProfitable ? "text-green-600" : "text-red-600"
+                            isProfitable ? "text-[#00b050]" : "text-[#ff4976]"
                           }
                         >
                           {isProfitable ? "+" : ""}$
@@ -413,34 +407,31 @@ const OrdersSection: React.FC = () => {
                           })()}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm font-mono text-gray-900">
+                      <td className="px-4 py-3 text-sm font-mono text-[#00d9ff]">
                         {order.leverage ? `${order.leverage}x` : "1x"}
                       </td>
-                      <td className="px-4 py-3 text-sm font-mono text-gray-900">
+                      <td className="px-4 py-3 text-sm font-mono text-[#f0f6fc]">
                         {order.takeProfit && order.takeProfit > 0
-                          ? `$${
-                              typeof order.takeProfit === "number"
-                                ? order.takeProfit.toFixed(4)
-                                : parseFloat(order.takeProfit).toFixed(4)
-                            }`
+                          ? `$${typeof order.takeProfit === "number"
+                            ? order.takeProfit.toFixed(4)
+                            : parseFloat(order.takeProfit).toFixed(4)
+                          }`
                           : "---"}
                       </td>
-                      <td className="px-4 py-3 text-sm font-mono text-gray-900">
+                      <td className="px-4 py-3 text-sm font-mono text-[#f0f6fc]">
                         {order.stopLoss && order.stopLoss > 0
-                          ? `$${
-                              typeof order.stopLoss === "number"
-                                ? order.stopLoss.toFixed(4)
-                                : parseFloat(order.stopLoss).toFixed(4)
-                            }`
+                          ? `$${typeof order.stopLoss === "number"
+                            ? order.stopLoss.toFixed(4)
+                            : parseFloat(order.stopLoss).toFixed(4)
+                          }`
                           : "---"}
                       </td>
                       <td className="px-4 py-3 text-sm">
                         <span
-                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            order.status === "open"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-gray-100 text-gray-800"
-                          }`}
+                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${order.status === "open"
+                              ? "bg-[#f0b429]/20 text-[#f0b429]"
+                              : "bg-[#30363d] text-[#8b949e]"
+                            }`}
                         >
                           {order.status.toUpperCase()}
                         </span>
@@ -448,18 +439,17 @@ const OrdersSection: React.FC = () => {
                       <td className="px-4 py-3 text-sm">
                         {order.closeReason ? (
                           <span
-                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              order.closeReason === "TakeProfit"
-                                ? "bg-green-100 text-green-800"
+                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${order.closeReason === "TakeProfit"
+                                ? "bg-[#00b050]/20 text-[#00b050]"
                                 : order.closeReason === "StopLoss"
-                                  ? "bg-red-100 text-red-800"
+                                  ? "bg-[#ff4976]/20 text-[#ff4976]"
                                   : order.closeReason === "Manual"
-                                    ? "bg-blue-100 text-blue-800"
+                                    ? "bg-[#00d9ff]/20 text-[#00d9ff]"
                                     : order.closeReason === "Liquidation" ||
-                                        order.closeReason === "margin"
-                                      ? "bg-orange-100 text-orange-800"
-                                      : "bg-gray-100 text-gray-800"
-                            }`}
+                                      order.closeReason === "margin"
+                                      ? "bg-[#f0b429]/20 text-[#f0b429]"
+                                      : "bg-[#30363d] text-[#8b949e]"
+                              }`}
                           >
                             {order.closeReason === "margin"
                               ? "Liquidation"
@@ -474,7 +464,7 @@ const OrdersSection: React.FC = () => {
                           <button
                             onClick={() => handleCloseOrder(order.id)}
                             disabled={closeOrderMutation.isPending}
-                            className="text-red-600 hover:text-red-800 font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="text-[#ff4976] hover:text-[#ff6b8a] font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {closeOrderMutation.isPending
                               ? "Closing..."

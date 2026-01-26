@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { SiBitcoin } from "react-icons/si";
 import { SiTether } from "react-icons/si";
 import {
@@ -72,17 +73,17 @@ const Marketplace = () => {
         width: containerWidth,
         height: containerHeight,
         layout: {
-          background: { color: "#ffffff" },
-          textColor: "#374151",
+          background: { color: "#0d1117" },
+          textColor: "#8b949e",
           fontSize: 12,
         },
         crosshair: { mode: CrosshairMode.Normal },
         grid: {
-          vertLines: { color: "#e5e7eb" },
-          horzLines: { color: "#e5e7eb" },
+          vertLines: { color: "#21262d" },
+          horzLines: { color: "#21262d" },
         },
-        timeScale: { borderColor: "#d1d5db" },
-        rightPriceScale: { borderColor: "#d1d5db" },
+        timeScale: { borderColor: "#30363d" },
+        rightPriceScale: { borderColor: "#30363d" },
         handleScroll: {
           mouseWheel: true,
           pressedMouseMove: true,
@@ -101,8 +102,8 @@ const Marketplace = () => {
         downColor: "#ff4976",
         borderDownColor: "#ff4976",
         borderUpColor: "#00b050",
-        wickDownColor: "#838ca1",
-        wickUpColor: "#838ca1",
+        wickDownColor: "#8b949e",
+        wickUpColor: "#8b949e",
       });
       seriesRef.current = series;
 
@@ -178,19 +179,25 @@ const Marketplace = () => {
   }, [data, isLoading, isError]);
 
   return (
-    <div className="w-full h-screen bg-white flex flex-col">
-      <header className="bg-white border-b border-gray-200 px-4 py-2 md:px-6 lg:px-4 flex-shrink-0">
+    <div className="w-full h-screen bg-[#0d1117] flex flex-col">
+      <header className="bg-[#161b22] border-b border-[#30363d] px-4 py-2 md:px-6 lg:px-4 flex-shrink-0">
         <div className="mx-auto">
           <div className="flex items-center justify-between mb-4 md:mb-0">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-black rounded-full"></div>
-              <h1 className="text-xl font-semibold text-black font-ibm-plex-mono">
-                100xness
+              <Image
+                src="/images/logo.png"
+                alt="Tradevia Logo"
+                width={28}
+                height={28}
+                className="rounded-full"
+              />
+              <h1 className="text-xl font-semibold text-[#f0f6fc] font-ibm-plex-mono">
+                tradevia
               </h1>
             </div>
 
             <button
-              className="md:hidden p-2 text-gray-600 hover:text-black"
+              className="md:hidden p-2 text-[#8b949e] hover:text-[#f0f6fc]"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               <svg
@@ -214,39 +221,39 @@ const Marketplace = () => {
               <nav className="flex items-center gap-6 lg:gap-8">
                 <Link
                   href="/"
-                  className="text-gray-600 hover:text-black transition-colors font-instrument-sans"
+                  className="text-[#8b949e] hover:text-[#00d9ff] transition-colors font-instrument-sans"
                 >
                   Home
                 </Link>
                 <Link
                   href="/docs"
-                  className="text-gray-600 hover:text-black transition-colors font-instrument-sans"
+                  className="text-[#8b949e] hover:text-[#00d9ff] transition-colors font-instrument-sans"
                 >
                   Docs
                 </Link>
                 <Link
                   href="/marketplace"
-                  className="text-black font-semibold font-instrument-sans"
+                  className="text-[#00d9ff] font-semibold font-instrument-sans"
                 >
                   Marketplace
                 </Link>
               </nav>
 
-              <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
+              <div className="flex items-center gap-2 bg-[#21262d] px-3 py-2 rounded-lg border border-[#30363d]">
                 <div className="flex items-center gap-1">
                   <SiBitcoin className="w-5 h-5 text-orange-500" />
-                  <span className="font-semibold text-black font-ibm-plex-mono">BTC</span>
+                  <span className="font-semibold text-[#f0f6fc] font-ibm-plex-mono">BTC</span>
                 </div>
-                <span className="text-gray-400">/</span>
+                <span className="text-[#8b949e]">/</span>
                 <div className="flex items-center gap-1">
                   <SiTether className="w-5 h-5 text-green-500" />
-                  <span className="font-semibold text-black font-ibm-plex-mono">USDT</span>
+                  <span className="font-semibold text-[#f0f6fc] font-ibm-plex-mono">USDT</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 lg:gap-6 pl-6 lg:pl-8 border-l border-gray-300">
+              <div className="flex items-center gap-4 lg:gap-6 pl-6 lg:pl-8 border-l border-[#30363d]">
                 <div className="flex items-center gap-3">
-                  <span className="text-sm text-gray-600">Timeframe:</span>
+                  <span className="text-sm text-[#8b949e]">Timeframe:</span>
                   <IntervalSelector
                     selectedInterval={selectedInterval}
                     onIntervalChange={setSelectedInterval}
@@ -257,8 +264,8 @@ const Marketplace = () => {
 
             <div className="flex items-center gap-4 lg:gap-6">
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-600">Balance:</span>
-                <span className="text-lg font-semibold text-black font-ibm-plex-mono">
+                <span className="text-sm text-[#8b949e]">Balance:</span>
+                <span className="text-lg font-semibold text-[#00d9ff] font-ibm-plex-mono">
                   {balanceLoading
                     ? "Loading..."
                     : `$${totalBalance.toLocaleString()}`}
@@ -266,7 +273,7 @@ const Marketplace = () => {
               </div>
               <button
                 onClick={() => setIsDepositModalOpen(true)}
-                className="bg-black text-white text-sm px-6 py-2 rounded-4xl font-medium transition-colors hover:bg-gray-800 cursor-pointer"
+                className="bg-gradient-to-r from-[#00d9ff] to-[#00b050] text-[#0d1117] text-sm px-6 py-2 rounded-4xl font-semibold transition-all hover:opacity-90 cursor-pointer"
               >
                 Deposit
               </button>
@@ -274,46 +281,46 @@ const Marketplace = () => {
           </div>
 
           <div className={`md:hidden ${mobileMenuOpen ? "block" : "hidden"}`}>
-            <div className="space-y-4 pt-4 border-t border-gray-200">
-              <nav className="flex flex-col gap-3 pb-4 border-b border-gray-200">
+            <div className="space-y-4 pt-4 border-t border-[#30363d]">
+              <nav className="flex flex-col gap-3 pb-4 border-b border-[#30363d]">
                 <Link
                   href="/"
-                  className="text-gray-600 hover:text-black transition-colors font-instrument-sans"
+                  className="text-[#8b949e] hover:text-[#00d9ff] transition-colors font-instrument-sans"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Home
                 </Link>
                 <Link
                   href="/docs"
-                  className="text-gray-600 hover:text-black transition-colors font-instrument-sans"
+                  className="text-[#8b949e] hover:text-[#00d9ff] transition-colors font-instrument-sans"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Docs
                 </Link>
                 <Link
                   href="/marketplace"
-                  className="text-black font-semibold font-instrument-sans"
+                  className="text-[#00d9ff] font-semibold font-instrument-sans"
                 >
                   Marketplace
                 </Link>
               </nav>
 
-              <div className="flex items-center justify-center gap-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
+              <div className="flex items-center justify-center gap-2 bg-[#21262d] px-3 py-2 rounded-lg border border-[#30363d]">
                 <div className="flex items-center gap-1">
                   <SiBitcoin className="w-5 h-5 text-orange-500" />
-                  <span className="font-semibold text-black font-ibm-plex-mono">BTC</span>
+                  <span className="font-semibold text-[#f0f6fc] font-ibm-plex-mono">BTC</span>
                 </div>
-                <span className="text-gray-400">/</span>
+                <span className="text-[#8b949e]">/</span>
                 <div className="flex items-center gap-1">
                   <SiTether className="w-5 h-5 text-green-500" />
-                  <span className="font-semibold text-black font-ibm-plex-mono">USDT</span>
+                  <span className="font-semibold text-[#f0f6fc] font-ibm-plex-mono">USDT</span>
                 </div>
               </div>
 
               <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-400">Balance:</span>
-                  <span className="text-lg font-semibold text-white font-ibm-plex-mono">
+                  <span className="text-sm text-[#8b949e]">Balance:</span>
+                  <span className="text-lg font-semibold text-[#00d9ff] font-ibm-plex-mono">
                     {balanceLoading
                       ? "Loading..."
                       : `$${totalBalance.toLocaleString()}`}
@@ -321,7 +328,7 @@ const Marketplace = () => {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <span className="text-sm text-gray-600">Timeframe:</span>
+                  <span className="text-sm text-[#8b949e]">Timeframe:</span>
                   <IntervalSelector
                     selectedInterval={selectedInterval}
                     onIntervalChange={setSelectedInterval}
@@ -332,7 +339,7 @@ const Marketplace = () => {
                 <div className="pt-2">
                   <button
                     onClick={() => setIsDepositModalOpen(true)}
-                    className="w-full text-white text-sm px-4 py-3 rounded-4xl font-medium transition-colors hover:bg-gray-800"
+                    className="w-full bg-gradient-to-r from-[#00d9ff] to-[#00b050] text-[#0d1117] text-sm px-4 py-3 rounded-4xl font-semibold transition-all hover:opacity-90"
                   >
                     Deposit
                   </button>
@@ -362,26 +369,26 @@ const Marketplace = () => {
           <Panel defaultSize={60} minSize={40} className="lg:min-w-0 w-full">
             <PanelGroup direction="vertical" className="h-full">
               <Panel defaultSize={75} minSize={50}>
-                <div className="h-full relative bg-white">
+                <div className="h-full relative bg-[#0d1117]">
                   {isLoading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 z-10">
+                    <div className="absolute inset-0 flex items-center justify-center bg-[#0d1117] bg-opacity-90 z-10">
                       <div className="text-center">
-                        <div className="text-black text-lg mb-2">
+                        <div className="text-[#f0f6fc] text-lg mb-2">
                           Loading chart data...
                         </div>
-                        <div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin mx-auto"></div>
+                        <div className="w-8 h-8 border-4 border-[#00d9ff] border-t-transparent rounded-full animate-spin mx-auto"></div>
                       </div>
                     </div>
                   )}
                   {isError && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 z-10">
+                    <div className="absolute inset-0 flex items-center justify-center bg-[#0d1117] bg-opacity-90 z-10">
                       <div className="text-center p-4">
-                        <div className="text-red-600 text-lg mb-2">
+                        <div className="text-[#ff4976] text-lg mb-2">
                           Error loading chart data
                         </div>
                         <button
                           onClick={() => window.location.reload()}
-                          className="bg-white border-2 border-black text-black px-4 py-2 rounded-4xl text-sm transition-colors hover:bg-black hover:text-white"
+                          className="bg-[#21262d] border border-[#30363d] text-[#f0f6fc] px-4 py-2 rounded-4xl text-sm transition-colors hover:border-[#00d9ff] hover:text-[#00d9ff]"
                         >
                           Retry
                         </button>
@@ -392,9 +399,9 @@ const Marketplace = () => {
                     ref={containerRef}
                     className="w-full h-full"
                     style={{
-                      border: "2px solid #e5e7eb",
+                      border: "1px solid #30363d",
                       borderRadius: "8px",
-                      backgroundColor: "#ffffff",
+                      backgroundColor: "#0d1117",
                     }}
                   />
                 </div>
@@ -403,7 +410,7 @@ const Marketplace = () => {
               <PanelResizeHandle className="resize-handle-vertical" />
 
               <Panel defaultSize={25} minSize={15} maxSize={50}>
-                <div className="h-full border-t border-gray-200 bg-white">
+                <div className="h-full border-t border-[#30363d] bg-[#0d1117]">
                   <OrdersSection />
                 </div>
               </Panel>

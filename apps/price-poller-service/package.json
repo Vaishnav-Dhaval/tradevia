@@ -1,7 +1,7 @@
 {
   "name": "price-poller-service",
   "version": "1.0.0",
-  "description": "Price Poller service for 100xness trading platform",
+  "description": "Price Poller service for tradevia trading platform",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -b",
@@ -13,11 +13,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
+    "@tradevia/typescript-config": "workspace:*",
     "@types/ws": "^8.18.1"
   },
   "dependencies": {
-    "@repo/redis": "workspace:*",
+    "@tradevia/redis": "workspace:*",
     "ws": "^8.18.3"
   }
 }

@@ -23,23 +23,23 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "100xness - Turn Market Volatility into 100x Returns",
+  title: "tradevia - Turn Market Volatility into Opportunity with tradevia",
   description: "Buy with upto 100x leverage, because 10x ain't enough",
   openGraph: {
-    title: "100xness - Turn Market Volatility into 100x Returns",
+    title: "tradevia - Turn Market Volatility into Opportunity with tradevia",
     description: "Buy with upto 100x leverage, because 10x ain't enough",
     images: [
       {
         url: "/images/OG.png",
         width: 1200,
         height: 630,
-        alt: "100xness - Turn Market Volatility into 100x Returns",
+        alt: "tradevia - Turn Market Volatility into Opportunity with tradevia",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "100xness - Turn Market Volatility into 100x Returns",
+    title: "tradevia - Turn Market Volatility into Opportunity with tradevia",
     description: "Buy with upto 100x leverage, because 10x ain't enough",
     images: ["/images/OG.png"],
   },

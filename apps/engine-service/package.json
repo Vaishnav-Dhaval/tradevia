@@ -1,7 +1,7 @@
 {
   "name": "engine-service",
   "version": "1.0.0",
-  "description": "Trading Engine service for 100xness trading platform",
+  "description": "Trading Engine service for tradevia trading platform",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -b",
@@ -13,12 +13,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@repo/types": "workspace:*",
-    "@repo/typescript-config": "workspace:*"
+    "@tradevia/types": "workspace:*",
+    "@tradevia/typescript-config": "workspace:*"
   },
   "dependencies": {
-    "@repo/prisma": "workspace:*",
-    "@repo/redis": "workspace:*",
+    "@tradevia/prisma": "workspace:*",
+    "@tradevia/redis": "workspace:*",
     "dotenv": "^17.2.2",
     "ioredis": "^5.7.0"
   }

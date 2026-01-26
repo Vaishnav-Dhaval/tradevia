@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import {prisma} from "@repo/prisma";
+import {prisma} from "@tradevia/prisma";
 import { LoginSchema, RegisterSchema } from "../schemas/auth.type";
 
 export const login = async (req: Request, res: Response) => {
