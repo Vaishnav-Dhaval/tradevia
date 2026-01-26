@@ -23,7 +23,7 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
     ];
 
     return (
-        <div className={`inline-flex rounded-lg bg-gray-100 p-1 border border-gray-300 ${className}`}>
+        <div className={`inline-flex rounded-lg bg-[#21262d] p-1 border border-[#30363d] ${className}`}>
             {intervals.map((interval) => (
                 <button
                     key={interval.value}
@@ -31,8 +31,8 @@ const IntervalSelector: React.FC<IntervalSelectorProps> = ({
                     className={`
                         px-3 py-2 md:px-4 md:py-2 text-xs md:text-sm font-medium rounded-md transition-all duration-200 ease-in-out
                         ${selectedInterval === interval.value
-                            ? "bg-black text-white shadow-lg transform scale-105"
-                            : "text-gray-600 hover:text-black hover:bg-gray-200 active:scale-95"
+                            ? "bg-gradient-to-r from-[#00d9ff] to-[#00b050] text-[#0d1117] shadow-lg transform scale-105"
+                            : "text-[#8b949e] hover:text-[#f0f6fc] hover:bg-[#30363d] active:scale-95"
                         }
                     `}
                 >

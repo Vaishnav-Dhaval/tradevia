@@ -35,24 +35,24 @@ const TickerItem: React.FC<TickerItemProps> = ({ symbol, price, quantity, bid, a
     };
 
     return (
-        <div className="p-3 border-b border-gray-200 hover:bg-gray-50 transition-colors">
+        <div className="p-3 border-b border-[#30363d] hover:bg-[#21262d] transition-colors">
             <div className="flex justify-between items-start mb-2">
-                <span className="font-medium text-gray-900 text-sm">
+                <span className="font-medium text-[#f0f6fc] text-sm">
                     {symbol.replace('_', '/')}
                 </span>
- 
+
             </div>
 
             <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="flex flex-col">
-                    <span className="text-gray-500 text-xs">Bid</span>
-                    <span className="font-mono text-green-600">
+                    <span className="text-[#8b949e] text-xs">Bid</span>
+                    <span className="font-mono text-[#00b050]">
                         ${bid != null ? bid.toLocaleString() : lastTradePrice.toLocaleString()}
                     </span>
                 </div>
                 <div className="flex flex-col">
-                    <span className="text-gray-500 text-xs">Ask</span>
-                    <span className="font-mono text-red-600">
+                    <span className="text-[#8b949e] text-xs">Ask</span>
+                    <span className="font-mono text-[#ff4976]">
                         ${ask != null ? ask.toLocaleString() : lastTradePrice.toLocaleString()}
                     </span>
                 </div>
@@ -64,7 +64,7 @@ const TickerItem: React.FC<TickerItemProps> = ({ symbol, price, quantity, bid, a
 
 const LeftSideBar: React.FC = () => {
     const { messages, orderBook, isConnected } = useWs();
-    
+
     React.useEffect(() => {
         // console.log('LeftSideBar orderBook state:', orderBook);
     }, [orderBook]);
@@ -105,7 +105,7 @@ const LeftSideBar: React.FC = () => {
             } else {
                 newChanges.set(symbol, true);
             }
-            
+
             previousPricesRef.current.set(symbol, currentPrice);
         });
 
@@ -113,20 +113,20 @@ const LeftSideBar: React.FC = () => {
     }, [symbolData]);
 
     return (
-        <div className="w-full bg-white border-r border-gray-200 h-full flex flex-col">
-            <div className="p-4 border-b border-gray-200 bg-gray-50">
-                <h2 className="text-lg font-semibold text-gray-900 font-ibm-plex-mono">
+        <div className="w-full bg-[#161b22] border-r border-[#30363d] h-full flex flex-col">
+            <div className="p-4 border-b border-[#30363d] bg-[#0d1117]">
+                <h2 className="text-lg font-semibold text-[#f0f6fc] font-ibm-plex-mono">
                     Live Ticker
                 </h2>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-[#8b949e] mt-1">
                     {symbolData.length} symbols • Live Bid/Ask
                 </p>
             </div>
 
             <div className="flex-1 overflow-y-auto">
                 {symbolData.length === 0 ? (
-                    <div className="p-4 text-center text-gray-500">
-                        <div className="w-8 h-8 border-4 border-gray-300 border-t-black-500 rounded-full animate-spin mx-auto mb-2"></div>
+                    <div className="p-4 text-center text-[#8b949e]">
+                        <div className="w-8 h-8 border-4 border-[#30363d] border-t-[#00d9ff] rounded-full animate-spin mx-auto mb-2"></div>
                         <p className="text-sm">Waiting for live data...</p>
                     </div>
                 ) : (
@@ -134,25 +134,21 @@ const LeftSideBar: React.FC = () => {
                         const getBestBid = () => {
                             if (orderBook && orderBook.symbol === data.data.s && orderBook.bids?.length > 0) {
                                 const bid = parseFloat(orderBook.bids[0]?.[0] || '0');
-                                // console.log('Getting best bid:', bid, 'from orderbook:', orderBook.bids[0]);
                                 return bid;
                             }
-                            // console.log('No bid data available, orderBook:', orderBook);
                             return null;
                         };
-                        
+
                         const getBestAsk = () => {
                             if (orderBook && orderBook.symbol === data.data.s && orderBook.asks?.length > 0) {
                                 const ask = parseFloat(orderBook.asks[0]?.[0] || '0');
-                                // console.log('Getting best ask:', ask, 'from orderbook:', orderBook.asks[0]);
                                 return ask;
                             }
-                            // console.log('No ask data available, orderBook:', orderBook);
                             return null;
                         };
 
                         const lastTradePrice = parseFloat(data.data.p);
-                        
+
                         return (
                             <TickerItem
                                 key={data.data.s}
@@ -170,11 +166,11 @@ const LeftSideBar: React.FC = () => {
                 )}
             </div>
 
-            <div className="p-3 border-t border-gray-200 bg-gray-50">
-                <div className="flex items-center justify-between text-xs text-gray-500">
+            <div className="p-3 border-t border-[#30363d] bg-[#0d1117]">
+                <div className="flex items-center justify-between text-xs text-[#8b949e]">
                     <span>Real-time data</span>
                     <div className="flex items-center gap-1">
-                        <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
+                        <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-[#00b050] animate-pulse' : 'bg-[#ff4976]'}`}></div>
                         <span>{isConnected ? 'Connected' : 'Disconnected'}</span>
                     </div>
                 </div>

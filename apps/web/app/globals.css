@@ -1,13 +1,29 @@
 @import "tailwindcss";
 
 :root {
+    /* Fonts */
     --font-dm-sans: 'DM Sans', sans-serif;
     --font-instrument-serif: 'Instrument Serif', serif;
     --font-ibm-plex-mono: 'IBM Plex Mono', monospace;
+
+    /* Dark Theme Colors */
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+    --border-color: #30363d;
+    --text-primary: #f0f6fc;
+    --text-secondary: #8b949e;
+    --accent-primary: #00d9ff;
+    --accent-hover: #33e1ff;
+    --success: #00b050;
+    --error: #ff4976;
+    --warning: #f0b429;
 }
 
 body {
     font-family: var(--font-dm-sans);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 .font-dm-sans {
@@ -22,20 +38,31 @@ body {
     font-family: var(--font-ibm-plex-mono);
 }
 
+/* Theme utility classes */
+.bg-dark-primary { background-color: var(--bg-primary); }
+.bg-dark-secondary { background-color: var(--bg-secondary); }
+.bg-dark-tertiary { background-color: var(--bg-tertiary); }
+.border-dark { border-color: var(--border-color); }
+.text-dark-primary { color: var(--text-primary); }
+.text-dark-secondary { color: var(--text-secondary); }
+.text-accent { color: var(--accent-primary); }
+.text-success { color: var(--success); }
+.text-error { color: var(--error); }
+
 .resize-handle-horizontal {
     position: relative;
     width: 8px;
-    background: #e5e7eb;
+    background: var(--bg-tertiary);
     transition: background-color 0.2s ease;
     cursor: col-resize;
 }
 
 .resize-handle-horizontal:hover {
-    background: #d1d5db;
+    background: var(--border-color);
 }
 
 .resize-handle-horizontal:active {
-    background: #9ca3af;
+    background: var(--text-secondary);
 }
 
 .resize-handle-horizontal::after {
@@ -46,7 +73,7 @@ body {
     transform: translate(-50%, -50%);
     width: 3px;
     height: 20px;
-    background: #6b7280;
+    background: var(--text-secondary);
     border-radius: 2px;
     opacity: 0.6;
     transition: opacity 0.2s ease;
@@ -59,17 +86,17 @@ body {
 .resize-handle-vertical {
     position: relative;
     height: 8px;
-    background: #e5e7eb;
+    background: var(--bg-tertiary);
     transition: background-color 0.2s ease;
     cursor: row-resize;
 }
 
 .resize-handle-vertical:hover {
-    background: #d1d5db;
+    background: var(--border-color);
 }
 
 .resize-handle-vertical:active {
-    background: #9ca3af;
+    background: var(--text-secondary);
 }
 
 .resize-handle-vertical::after {
@@ -80,7 +107,7 @@ body {
     transform: translate(-50%, -50%);
     width: 20px;
     height: 3px;
-    background: #6b7280;
+    background: var(--text-secondary);
     border-radius: 2px;
     opacity: 0.6;
     transition: opacity 0.2s ease;
@@ -88,4 +115,24 @@ body {
 
 .resize-handle-vertical:hover::after {
     opacity: 1;
+}
+
+/* Gradient accent button */
+.btn-accent {
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--success) 100%);
+    color: #0d1117;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-accent:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* Glassmorphism card */
+.glass-card {
+    background: rgba(22, 27, 34, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
 }
