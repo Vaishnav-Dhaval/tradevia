@@ -8,6 +8,7 @@ RUN npm install -g pnpm
 
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 
+COPY packages/config/package.json ./packages/config/
 COPY packages/redis/package.json ./packages/redis/
 COPY packages/typescript-config/package.json ./packages/typescript-config/
 COPY packages/types/package.json ./packages/types/
@@ -15,6 +16,8 @@ COPY apps/price-poller-service/package.json ./apps/price-poller-service/
 
 RUN pnpm install --no-frozen-lockfile
 
+COPY packages/config/src ./packages/config/src
+COPY packages/config/tsconfig.json ./packages/config/
 COPY packages/redis/index.ts ./packages/redis/
 COPY packages/redis/tsconfig.json ./packages/redis/
 COPY packages/typescript-config/ ./packages/typescript-config/
