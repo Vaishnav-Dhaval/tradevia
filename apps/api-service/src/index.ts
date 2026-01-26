@@ -10,17 +10,25 @@ import candlesRouter from "./routes/candles.route";
 const app = express();
 const PORT = config.port;
 
+const allowedOrigins = new Set([
+  "http://localhost:3200",
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "https://exness.dakshv.in",
+  "http://exness.dakshv.in",
+  "https://www.exness.dakshv.in",
+  "http://www.exness.dakshv.in"
+]);
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3200",
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://exness.dakshv.in",
-      "http://exness.dakshv.in",
-      "https://www.exness.dakshv.in",
-      "http://www.exness.dakshv.in"
-    ],
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.has(origin)) {
+        return callback(null, origin);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
@@ -31,6 +39,7 @@ app.use(
     ]
   })
 );
+
 
 app.use((req, res, next) => {
   console.log(
