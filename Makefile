@@ -15,4 +15,4 @@ up:
 up-nc:
 	docker compose up -d --build
 
-all: down clean build up
+all: down docker-clean build up
