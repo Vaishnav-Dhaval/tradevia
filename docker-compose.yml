@@ -1,4 +1,21 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: trading_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d trading_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - tradevia-network
+
   redis:
     image: redis:8.4.0-alpine
     restart: unless-stopped
@@ -9,6 +26,8 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+    networks:
+      - tradevia-network
 
   api-service:
     build:
@@ -20,6 +39,8 @@ services:
     env_file:
       - .env
     depends_on:
+      postgres:
+        condition: service_healthy
       redis:
         condition: service_healthy
     healthcheck:
@@ -28,6 +49,8 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    networks:
+      - tradevia-network
 
   engine-service:
     build:
@@ -45,6 +68,8 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    networks:
+      - tradevia-network
 
   price-poller-service:
     build:
@@ -62,6 +87,13 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    networks:
+      - tradevia-network
 
 volumes:
   redis-data:
+  postgres-data:
+
+networks:
+  tradevia-network:
+    driver: bridge
