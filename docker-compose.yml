@@ -2,8 +2,6 @@ services:
   redis:
     image: redis:8.4.0-alpine
     restart: unless-stopped
-    # ports:
-    #   - "6379:6379"
     volumes:
       - redis-data:/data
     healthcheck:
@@ -17,12 +15,6 @@ services:
       context: .
       dockerfile: apps/api-service/Dockerfile
     restart: unless-stopped
-    ports:
-      - "3001:3001"
-    environment:
-      - REDIS_URL=redis://redis:6379
-    env_file:
-      - ./apps/api-service/.env
     depends_on:
       redis:
         condition: service_healthy
@@ -38,12 +30,6 @@ services:
       context: .
       dockerfile: apps/engine-service/Dockerfile
     restart: unless-stopped
-    # ports:
-    #   - "3002:3002"
-    environment:
-      - REDIS_URL=redis://redis:6379
-    env_file:
-      - ./apps/engine-service/.env
     depends_on:
       redis:
         condition: service_healthy
@@ -59,12 +45,6 @@ services:
       context: .
       dockerfile: apps/price-poller-service/Dockerfile
     restart: unless-stopped
-    # ports:
-    #   - "3003:3003"
-    environment:
-      - REDIS_URL=redis://redis:6379
-    env_file:
-      - ./apps/price-poller-service/.env
     depends_on:
       redis:
         condition: service_healthy

@@ -31,6 +31,12 @@ COPY packages/prisma/prisma ./packages/prisma/prisma
 COPY packages/prisma/index.ts ./packages/prisma/
 COPY packages/prisma/tsconfig.json ./packages/prisma/
 
+WORKDIR /app/packages/config
+RUN npx tsc -b
+
+WORKDIR /app/packages/types
+RUN npx tsc -b
+
 WORKDIR /app/packages/prisma
 RUN npx prisma generate
 RUN npx tsc -b

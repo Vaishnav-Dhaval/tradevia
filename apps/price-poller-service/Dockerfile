@@ -26,6 +26,9 @@ COPY packages/types/tsconfig.json ./packages/types/
 COPY apps/price-poller-service/src ./apps/price-poller-service/src
 COPY apps/price-poller-service/tsconfig.json ./apps/price-poller-service/
 
+WORKDIR /app/packages/config
+RUN npx tsc -b
+
 WORKDIR /app/apps/price-poller-service
 RUN npx tsc -b
 
