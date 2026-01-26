@@ -272,12 +272,12 @@ importers:
 
   packages/redis:
     dependencies:
+      '@tradevia/config':
+        specifier: workspace:*
+        version: link:../config
       '@tradevia/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      dotenv:
-        specifier: ^17.2.2
-        version: 17.2.2
       ioredis:
         specifier: ^5.7.0
         version: 5.7.0

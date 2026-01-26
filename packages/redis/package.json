@@ -12,7 +12,7 @@
   "dependencies": {
     "ioredis": "^5.7.0",
     "@tradevia/typescript-config": "workspace:*",
-    "dotenv": "^17.2.2"
+    "@tradevia/config": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.15.3"
