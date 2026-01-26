@@ -16,10 +16,10 @@ app.use(
       "http://localhost:3200",
       "http://localhost:3000",
       "http://localhost:3001",
-      "https://exness.dakshv.in",
-      "https://www.exness.dakshv.in",
-      "http://exness.dakshv.in",
-      "http://www.exness.dakshv.in"
+      "https://api.exness.dakshv.in",
+      "http://api.exness.dakshv.in",
+      "https://www.api.exness.dakshv.in",
+      "http://www.api.exness.dakshv.in"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
