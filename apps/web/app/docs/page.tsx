@@ -4,26 +4,26 @@ import Header from "../components/Header";
 
 const Docs = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#0d1117]">
       <Header />
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-5xl mx-auto">
           <div className="text-center my-20">
-            <h1 className="text-4xl md:text-6xl font-medium text-black leading-tight mb-6 font-dm-sans tracking-tight">
+            <h1 className="text-4xl md:text-6xl font-medium text-[#f0f6fc] leading-tight mb-6 font-dm-sans tracking-tight">
               tradevia{" "}
-              <span className="italic font-instrument-serif tracking-normal">
+              <span className="italic font-instrument-serif tracking-normal text-transparent bg-clip-text bg-gradient-to-r from-[#00d9ff] to-[#00b050]">
                 Documentation
               </span>
             </h1>
-            <p className="text-sm md:text-md text-black mb-8 max-w-2xl mx-auto leading-relaxed font-ibm-plex-mono">
+            <p className="text-sm md:text-md text-[#8b949e] mb-8 max-w-2xl mx-auto leading-relaxed font-ibm-plex-mono">
               Explore the technical architecture and implementation details of a
               high-performance trading engine.
             </p>
           </div>
 
-          <div className="border border-gray-200 mb-16">
-            <div className="border-b border-gray-200 px-8 py-6">
-              <h2 className="text-2xl font-semibold text-black font-dm-sans tracking-tight">
+          <div className="border border-[#30363d] mb-16">
+            <div className="border-b border-[#30363d] px-8 py-6">
+              <h2 className="text-2xl font-semibold text-[#f0f6fc] font-dm-sans tracking-tight">
                 System Architecture
               </h2>
             </div>
@@ -32,10 +32,10 @@ const Docs = () => {
                 <img
                   src="/images/architecture.png"
                   alt="tradevia System Architecture"
-                  className="w-full max-w-4xl mx-auto border border-gray-200"
+                  className="w-full max-w-4xl mx-auto border border-[#30363d]"
                 />
               </div>
-              <p className="text-gray-700 text-sm leading-relaxed max-w-4xl mx-auto">
+              <p className="text-[#8b949e] text-sm leading-relaxed max-w-4xl mx-auto">
                 The system follows a microservices architecture with three core
                 components communicating through Redis streams. Real-time price
                 data flows from external exchanges through WebSocket
@@ -46,15 +46,15 @@ const Docs = () => {
           </div>
 
           {/* Core Components */}
-          <div className="border border-gray-200 mb-16">
-            <div className="border-b border-gray-200 px-8 py-6">
-              <h2 className="text-2xl font-semibold text-black font-dm-sans tracking-tight">
+          <div className="border border-[#30363d] mb-16">
+            <div className="border-b border-[#30363d] px-8 py-6">
+              <h2 className="text-2xl font-semibold text-[#f0f6fc] font-dm-sans tracking-tight">
                 Core Components & Implementation
               </h2>
             </div>
             <div className="p-8 space-y-12">
               <div>
-                <h3 className="text-xl font-semibold text-black mb-6 font-dm-sans">
+                <h3 className="text-xl font-semibold text-[#f0f6fc] mb-6 font-dm-sans">
                   Trading Engine
                 </h3>
                 <div className="grid md:grid-cols-2 gap-8">
@@ -62,12 +62,12 @@ const Docs = () => {
                     <h4 className="text-lg font-medium mb-4 font-dm-sans">
                       Order Processing Logic
                     </h4>
-                    <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-3 text-sm text-[#8b949e] leading-relaxed">
                       <p>
                         The trading engine processes orders through Redis
                         streams with real-time price validation:
                       </p>
-                      <div className="bg-gray-50 p-4 font-ibm-plex-mono text-xs">
+                      <div className="bg-[#161b22] p-4 font-ibm-plex-mono text-xs">
                         <div>
                           • Validates user balance against required margin
                         </div>
@@ -85,11 +85,11 @@ const Docs = () => {
                     <h4 className="text-lg font-medium mb-4 font-dm-sans">
                       Liquidation Mechanism
                     </h4>
-                    <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-3 text-sm text-[#8b949e] leading-relaxed">
                       <p>
                         Automatic liquidation system runs on every price update:
                       </p>
-                      <div className="bg-gray-50 p-4 font-ibm-plex-mono text-xs">
+                      <div className="bg-[#161b22] p-4 font-ibm-plex-mono text-xs">
                         <div>• Take Profit: long orders when price ≥ target, short orders when price ≤ target</div>
                         <div>• Stop Loss: long orders when price ≤ target, short orders when price ≥ target</div>
                         <div>
@@ -108,21 +108,21 @@ const Docs = () => {
                     Redis Stream Communication
                   </h4>
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div className="border border-gray-200 p-4">
+                    <div className="border border-[#30363d] p-4">
                       <h5 className="font-medium mb-2">
                         engine-stream (Input)
                       </h5>
-                      <div className="text-xs font-ibm-plex-mono text-gray-600 space-y-1">
+                      <div className="text-xs font-ibm-plex-mono text-[#8b949e] space-y-1">
                         <div>price-update: Real-time price data</div>
                         <div>create-order: New order requests</div>
                         <div>close-order: Manual order closures</div>
                       </div>
                     </div>
-                    <div className="border border-gray-200 p-4">
+                    <div className="border border-[#30363d] p-4">
                       <h5 className="font-medium mb-2">
                         callback-queue (Output)
                       </h5>
-                      <div className="text-xs font-ibm-plex-mono text-gray-600 space-y-1">
+                      <div className="text-xs font-ibm-plex-mono text-[#8b949e] space-y-1">
                         <div>created: Order successfully created</div>
                         <div>closed: Order liquidated/closed</div>
                         <div>insufficient_balance: Margin not met</div>
@@ -133,7 +133,7 @@ const Docs = () => {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold text-black mb-6 font-dm-sans">
+                <h3 className="text-xl font-semibold text-[#f0f6fc] mb-6 font-dm-sans">
                   Price Poller & WebSocket Integration
                 </h3>
                 <div className="grid md:grid-cols-2 gap-8">
@@ -141,7 +141,7 @@ const Docs = () => {
                     <h4 className="text-lg font-medium mb-4 font-dm-sans">
                       WebSocket Connection
                     </h4>
-                    <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-3 text-sm text-[#8b949e] leading-relaxed">
                       <p>
                         Connects to Backpack Exchange for real-time BTC_USDC
                         price feeds:
@@ -163,12 +163,12 @@ const Docs = () => {
                     <h4 className="text-lg font-medium mb-4 font-dm-sans">
                       Price Processing
                     </h4>
-                    <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-3 text-sm text-[#8b949e] leading-relaxed">
                       <p>
                         Every price update triggers immediate liquidation
                         checks:
                       </p>
-                      <div className="bg-gray-50 p-4 font-ibm-plex-mono text-xs">
+                      <div className="bg-[#161b22] p-4 font-ibm-plex-mono text-xs">
                         <div>• Bid price: Used for long order executions (closing) and short order entries</div>
                         <div>• Ask price: Used for short order executions (closing) and long order entries</div>
                         <div>• Mid price: (bid + ask) / 2 for display</div>
@@ -181,7 +181,7 @@ const Docs = () => {
 
               {/* Web Server Details */}
               <div>
-                <h3 className="text-xl font-semibold text-black mb-6 font-dm-sans">
+                <h3 className="text-xl font-semibold text-[#f0f6fc] mb-6 font-dm-sans">
                   Web Server & API Layer
                 </h3>
                 <div className="grid md:grid-cols-2 gap-8">
@@ -189,11 +189,11 @@ const Docs = () => {
                     <h4 className="text-lg font-medium mb-4 font-dm-sans">
                       Authentication & Middleware
                     </h4>
-                    <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-3 text-sm text-[#8b949e] leading-relaxed">
                       <p>
                         JWT-based authentication with middleware protection:
                       </p>
-                      <div className="bg-gray-50 p-4 font-ibm-plex-mono text-xs">
+                      <div className="bg-[#161b22] p-4 font-ibm-plex-mono text-xs">
                         <div>• Token generation on login</div>
                         <div>
                           • Middleware validates JWT on protected routes
@@ -209,9 +209,9 @@ const Docs = () => {
                     <h4 className="text-lg font-medium mb-4 font-dm-sans">
                       Order Lifecycle Management
                     </h4>
-                    <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-3 text-sm text-[#8b949e] leading-relaxed">
                       <p>Complete order management with async communication:</p>
-                      <div className="bg-gray-50 p-4 font-ibm-plex-mono text-xs">
+                      <div className="bg-[#161b22] p-4 font-ibm-plex-mono text-xs">
                         <div>• Creates order in pending state</div>
                         <div>• Sends to engine via Redis stream</div>
                         <div>• Waits for callback confirmation</div>
@@ -224,9 +224,9 @@ const Docs = () => {
             </div>
           </div>
 
-          <div className="border border-gray-200 mb-16">
-            <div className="border-b border-gray-200 px-8 py-6">
-              <h2 className="text-2xl font-semibold text-black font-dm-sans tracking-tight">
+          <div className="border border-[#30363d] mb-16">
+            <div className="border-b border-[#30363d] px-8 py-6">
+              <h2 className="text-2xl font-semibold text-[#f0f6fc] font-dm-sans tracking-tight">
                 API Reference
               </h2>
             </div>
@@ -237,29 +237,29 @@ const Docs = () => {
                     Authentication
                   </h3>
                   <div className="space-y-3 font-ibm-plex-mono text-sm">
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="bg-gray-900 text-white px-3 py-1 text-xs">
+                    <div className="flex justify-between items-center py-2 border-b border-[#30363d]">
+                      <span className="bg-[#21262d] text-white px-3 py-1 text-xs">
                         POST
                       </span>
-                      <span className="text-gray-700">/auth/register</span>
+                      <span className="text-[#8b949e]">/auth/register</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="bg-gray-900 text-white px-3 py-1 text-xs">
+                    <div className="flex justify-between items-center py-2 border-b border-[#30363d]">
+                      <span className="bg-[#21262d] text-white px-3 py-1 text-xs">
                         POST
                       </span>
-                      <span className="text-gray-700">/auth/login</span>
+                      <span className="text-[#8b949e]">/auth/login</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="bg-gray-900 text-white px-3 py-1 text-xs">
+                    <div className="flex justify-between items-center py-2 border-b border-[#30363d]">
+                      <span className="bg-[#21262d] text-white px-3 py-1 text-xs">
                         POST
                       </span>
-                      <span className="text-gray-700">/auth/logout</span>
+                      <span className="text-[#8b949e]">/auth/logout</span>
                     </div>
                     <div className="flex justify-between items-center py-2">
-                      <span className="bg-gray-900 text-white px-3 py-1 text-xs">
+                      <span className="bg-[#21262d] text-white px-3 py-1 text-xs">
                         GET
                       </span>
-                      <span className="text-gray-700">/auth/me</span>
+                      <span className="text-[#8b949e]">/auth/me</span>
                     </div>
                   </div>
                 </div>
@@ -268,31 +268,31 @@ const Docs = () => {
                     Trading
                   </h3>
                   <div className="space-y-3 font-ibm-plex-mono text-sm">
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="bg-gray-900 text-white px-3 py-1 text-xs">
+                    <div className="flex justify-between items-center py-2 border-b border-[#30363d]">
+                      <span className="bg-[#21262d] text-white px-3 py-1 text-xs">
                         POST
                       </span>
-                      <span className="text-gray-700">/trade/create</span>
+                      <span className="text-[#8b949e]">/trade/create</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="bg-gray-900 text-white px-3 py-1 text-xs">
+                    <div className="flex justify-between items-center py-2 border-b border-[#30363d]">
+                      <span className="bg-[#21262d] text-white px-3 py-1 text-xs">
                         POST
                       </span>
-                      <span className="text-gray-700">
+                      <span className="text-[#8b949e]">
                         /trade/close/:orderId
                       </span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="bg-gray-900 text-white px-3 py-1 text-xs">
+                    <div className="flex justify-between items-center py-2 border-b border-[#30363d]">
+                      <span className="bg-[#21262d] text-white px-3 py-1 text-xs">
                         GET
                       </span>
-                      <span className="text-gray-700">/trade/orders</span>
+                      <span className="text-[#8b949e]">/trade/orders</span>
                     </div>
                     <div className="flex justify-between items-center py-2">
-                      <span className="bg-gray-900 text-white px-3 py-1 text-xs">
+                      <span className="bg-[#21262d] text-white px-3 py-1 text-xs">
                         GET
                       </span>
-                      <span className="text-gray-700">
+                      <span className="text-[#8b949e]">
                         /trade/orders/:orderId
                       </span>
                     </div>
@@ -304,10 +304,10 @@ const Docs = () => {
                   </h3>
                   <div className="space-y-3 font-ibm-plex-mono text-sm">
                     <div className="flex justify-between items-center py-2">
-                      <span className="bg-gray-900 text-white px-3 py-1 text-xs">
+                      <span className="bg-[#21262d] text-white px-3 py-1 text-xs">
                         GET
                       </span>
-                      <span className="text-gray-700">/balance</span>
+                      <span className="text-[#8b949e]">/balance</span>
                     </div>
                   </div>
                 </div>
@@ -317,10 +317,10 @@ const Docs = () => {
                   </h3>
                   <div className="space-y-3 font-ibm-plex-mono text-sm">
                     <div className="flex justify-between items-center py-2">
-                      <span className="bg-gray-900 text-white px-3 py-1 text-xs">
+                      <span className="bg-[#21262d] text-white px-3 py-1 text-xs">
                         GET
                       </span>
-                      <span className="text-gray-700">/candles</span>
+                      <span className="text-[#8b949e]">/candles</span>
                     </div>
                   </div>
                 </div>
@@ -329,41 +329,41 @@ const Docs = () => {
           </div>
 
           {/* Database Schema */}
-          <div className="border border-gray-200 mb-16">
-            <div className="border-b border-gray-200 px-8 py-6">
-              <h2 className="text-2xl font-semibold text-black font-dm-sans tracking-tight">
+          <div className="border border-[#30363d] mb-16">
+            <div className="border-b border-[#30363d] px-8 py-6">
+              <h2 className="text-2xl font-semibold text-[#f0f6fc] font-dm-sans tracking-tight">
                 Database Schema
               </h2>
             </div>
             <div className="p-8">
               <div className="grid md:grid-cols-3 gap-8">
-                <div className="border border-gray-200 p-6">
+                <div className="border border-[#30363d] p-6">
                   <h3 className="text-lg font-semibold mb-4 font-dm-sans">
                     Users
                   </h3>
-                  <div className="space-y-2 text-sm text-gray-700 font-ibm-plex-mono">
+                  <div className="space-y-2 text-sm text-[#8b949e] font-ibm-plex-mono">
                     <div>id</div>
                     <div>email</div>
                     <div>password</div>
                     <div>name</div>
                   </div>
                 </div>
-                <div className="border border-gray-200 p-6">
+                <div className="border border-[#30363d] p-6">
                   <h3 className="text-lg font-semibold mb-4 font-dm-sans">
                     Assets
                   </h3>
-                  <div className="space-y-2 text-sm text-gray-700 font-ibm-plex-mono">
+                  <div className="space-y-2 text-sm text-[#8b949e] font-ibm-plex-mono">
                     <div>symbol</div>
                     <div>balance</div>
                     <div>decimals</div>
                     <div>userId</div>
                   </div>
                 </div>
-                <div className="border border-gray-200 p-6">
+                <div className="border border-[#30363d] p-6">
                   <h3 className="text-lg font-semibold mb-4 font-dm-sans">
                     Orders
                   </h3>
-                  <div className="space-y-2 text-sm text-gray-700 font-ibm-plex-mono">
+                  <div className="space-y-2 text-sm text-[#8b949e] font-ibm-plex-mono">
                     <div>id, userId, side, qty</div>
                     <div>openingPrice, closingPrice</div>
                     <div>status, leverage</div>
@@ -376,109 +376,109 @@ const Docs = () => {
           </div>
 
           {/* Technical Deep Dive */}
-          <div className="border border-gray-200 mb-16">
-            <div className="border-b border-gray-200 px-8 py-6">
-              <h2 className="text-2xl font-semibold text-black font-dm-sans tracking-tight">
+          <div className="border border-[#30363d] mb-16">
+            <div className="border-b border-[#30363d] px-8 py-6">
+              <h2 className="text-2xl font-semibold text-[#f0f6fc] font-dm-sans tracking-tight">
                 Technical Deep Dive
               </h2>
             </div>
             <div className="p-8 space-y-12">
               {/* Real-time Data Flow */}
               <div>
-                <h3 className="text-xl font-semibold text-black mb-6 font-dm-sans">
+                <h3 className="text-xl font-semibold text-[#f0f6fc] mb-6 font-dm-sans">
                   Real-time Data Flow
                 </h3>
                 <div className="space-y-6">
-                  <div className="border border-gray-200 p-6">
+                  <div className="border border-[#30363d] p-6">
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       Price Update Sequence
                     </h4>
                     <div className="grid md:grid-cols-4 gap-4 text-sm">
                       <div className="text-center">
-                        <div className="bg-gray-100 p-3 rounded mb-2">
+                        <div className="bg-[#161b22] p-3 rounded mb-2">
                           <div className="font-ibm-plex-mono text-xs">
                             Backpack Exchange
                           </div>
                         </div>
-                        <div className="text-gray-600">
+                        <div className="text-[#8b949e]">
                           WebSocket price feed
                         </div>
                       </div>
                       <div className="text-center">
-                        <div className="bg-gray-100 p-3 rounded mb-2">
+                        <div className="bg-[#161b22] p-3 rounded mb-2">
                           <div className="font-ibm-plex-mono text-xs">
                             Price Poller
                           </div>
                         </div>
-                        <div className="text-gray-600">
+                        <div className="text-[#8b949e]">
                           Parse & validate data
                         </div>
                       </div>
                       <div className="text-center">
-                        <div className="bg-gray-100 p-3 rounded mb-2">
+                        <div className="bg-[#161b22] p-3 rounded mb-2">
                           <div className="font-ibm-plex-mono text-xs">
                             Redis Stream
                           </div>
                         </div>
-                        <div className="text-gray-600">Queue price updates</div>
+                        <div className="text-[#8b949e]">Queue price updates</div>
                       </div>
                       <div className="text-center">
-                        <div className="bg-gray-100 p-3 rounded mb-2">
+                        <div className="bg-[#161b22] p-3 rounded mb-2">
                           <div className="font-ibm-plex-mono text-xs">
                             Trading Engine
                           </div>
                         </div>
-                        <div className="text-gray-600">
+                        <div className="text-[#8b949e]">
                           Process liquidations
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="border border-gray-200 p-6">
+                  <div className="border border-[#30363d] p-6">
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       Order Creation Sequence
                     </h4>
                     <div className="grid md:grid-cols-5 gap-3 text-sm">
                       <div className="text-center">
-                        <div className="bg-gray-100 p-3 rounded mb-2">
+                        <div className="bg-[#161b22] p-3 rounded mb-2">
                           <div className="font-ibm-plex-mono text-xs">
                             Web UI
                           </div>
                         </div>
-                        <div className="text-gray-600">User places order</div>
+                        <div className="text-[#8b949e]">User places order</div>
                       </div>
                       <div className="text-center">
-                        <div className="bg-gray-100 p-3 rounded mb-2">
+                        <div className="bg-[#161b22] p-3 rounded mb-2">
                           <div className="font-ibm-plex-mono text-xs">
                             API Server
                           </div>
                         </div>
-                        <div className="text-gray-600">Validate & auth</div>
+                        <div className="text-[#8b949e]">Validate & auth</div>
                       </div>
                       <div className="text-center">
-                        <div className="bg-gray-100 p-3 rounded mb-2">
+                        <div className="bg-[#161b22] p-3 rounded mb-2">
                           <div className="font-ibm-plex-mono text-xs">
                             Redis Stream
                           </div>
                         </div>
-                        <div className="text-gray-600">Queue order request</div>
+                        <div className="text-[#8b949e]">Queue order request</div>
                       </div>
                       <div className="text-center">
-                        <div className="bg-gray-100 p-3 rounded mb-2">
+                        <div className="bg-[#161b22] p-3 rounded mb-2">
                           <div className="font-ibm-plex-mono text-xs">
                             Trading Engine
                           </div>
                         </div>
-                        <div className="text-gray-600">Process & execute</div>
+                        <div className="text-[#8b949e]">Process & execute</div>
                       </div>
                       <div className="text-center">
-                        <div className="bg-gray-100 p-3 rounded mb-2">
+                        <div className="bg-[#161b22] p-3 rounded mb-2">
                           <div className="font-ibm-plex-mono text-xs">
                             Callback
                           </div>
                         </div>
-                        <div className="text-gray-600">Confirm to API</div>
+                        <div className="text-[#8b949e]">Confirm to API</div>
                       </div>
                     </div>
                   </div>
@@ -486,19 +486,19 @@ const Docs = () => {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold text-black mb-6 font-dm-sans">
+                <h3 className="text-xl font-semibold text-[#f0f6fc] mb-6 font-dm-sans">
                   Request-Response Architecture
                 </h3>
                 <div className="space-y-6">
-                  <div className="border border-gray-200 p-6">
+                  <div className="border border-[#30363d] p-6">
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       Core Communication Pattern
                     </h4>
-                    <div className="space-y-4 text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-4 text-sm text-[#8b949e] leading-relaxed">
                       <p>
                         The system implements an asynchronous request-response pattern using Redis streams as a message bus and an in-memory callback registry. This enables non-blocking communication between the API service and the trading engine while maintaining request-response semantics.
                       </p>
-                      
+
                       <div className="bg-black text-white p-4 font-ibm-plex-mono text-xs overflow-x-auto">
                         {`// 1. Trade controller builds payload
 const orderId = generateUniqueId();
@@ -519,10 +519,10 @@ const result = await sendRequestAndWait(orderId, {
                       </div>
 
                       <p className="pt-2">
-                        The <span className="font-ibm-plex-mono text-xs bg-gray-100 px-1">sendRequestAndWait</span> function orchestrates two parallel operations:
+                        The <span className="font-ibm-plex-mono text-xs bg-[#161b22] px-1">sendRequestAndWait</span> function orchestrates two parallel operations:
                       </p>
 
-                      <div className="bg-gray-50 p-4 border-l-4 border-gray-300">
+                      <div className="bg-[#161b22] p-4 border-l-4 border-[#30363d]">
                         <div className="font-medium mb-2">Parallel Operations:</div>
                         <div className="space-y-2 font-ibm-plex-mono text-xs">
                           <div>• <span className="font-semibold">Publishing:</span> addToStream(id, request) → XADD to engine-stream</div>
@@ -533,11 +533,11 @@ const result = await sendRequestAndWait(orderId, {
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div className="border border-gray-200 p-6">
+                    <div className="border border-[#30363d] p-6">
                       <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                         Publishing to Engine Stream
                       </h4>
-                      <div className="space-y-3 text-sm text-gray-700">
+                      <div className="space-y-3 text-sm text-[#8b949e]">
                         <div className="bg-black text-white p-4 font-ibm-plex-mono text-xs">
                           {`async function addToStream(
   id: string, 
@@ -554,18 +554,18 @@ const result = await sendRequestAndWait(orderId, {
                         <p>
                           Each message contains:
                         </p>
-                        <div className="bg-gray-50 p-3 space-y-1 font-ibm-plex-mono text-xs">
+                        <div className="bg-[#161b22] p-3 space-y-1 font-ibm-plex-mono text-xs">
                           <div>• <span className="font-semibold">id:</span> Unique correlation ID</div>
                           <div>• <span className="font-semibold">request:</span> JSON payload with kind and data</div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="border border-gray-200 p-6">
+                    <div className="border border-[#30363d] p-6">
                       <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                         Callback Registration
                       </h4>
-                      <div className="space-y-3 text-sm text-gray-700">
+                      <div className="space-y-3 text-sm text-[#8b949e]">
                         <div className="bg-black text-white p-4 font-ibm-plex-mono text-xs">
                           {`waitForMessage(id: string): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -589,11 +589,11 @@ const result = await sendRequestAndWait(orderId, {
                     </div>
                   </div>
 
-                  <div className="border border-gray-200 p-6">
+                  <div className="border border-[#30363d] p-6">
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       Engine Processing Loop
                     </h4>
-                    <div className="space-y-4 text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-4 text-sm text-[#8b949e] leading-relaxed">
                       <p>
                         The engine service runs a continuous loop that consumes from the engine-stream:
                       </p>
@@ -639,11 +639,11 @@ const result = await sendRequestAndWait(orderId, {
                     </div>
                   </div>
 
-                  <div className="border border-gray-200 p-6">
+                  <div className="border border-[#30363d] p-6">
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       Callback Queue Consumer
                     </h4>
-                    <div className="space-y-4 text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-4 text-sm text-[#8b949e] leading-relaxed">
                       <p>
                         A separate subscriber loop continuously listens for callbacks:
                       </p>
@@ -679,45 +679,45 @@ const result = await sendRequestAndWait(orderId, {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 border border-gray-300 p-6">
+                  <div className="bg-[#161b22] border border-[#30363d] p-6">
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       Complete Flow Summary
                     </h4>
-                    <div className="space-y-2 text-sm text-gray-700">
+                    <div className="space-y-2 text-sm text-[#8b949e]">
                       <div className="flex items-start">
-                        <span className="font-ibm-plex-mono text-xs bg-white px-2 py-1 rounded mr-3 font-semibold">1</span>
-                        <span>Trade controller calls <code className="font-ibm-plex-mono text-xs bg-white px-1">createOrder</code>, generates unique ID, builds payload</span>
+                        <span className="font-ibm-plex-mono text-xs bg-[#0d1117] px-2 py-1 rounded mr-3 font-semibold">1</span>
+                        <span>Trade controller calls <code className="font-ibm-plex-mono text-xs bg-[#0d1117] px-1">createOrder</code>, generates unique ID, builds payload</span>
                       </div>
                       <div className="flex items-start">
-                        <span className="font-ibm-plex-mono text-xs bg-white px-2 py-1 rounded mr-3 font-semibold">2</span>
-                        <span>Calls <code className="font-ibm-plex-mono text-xs bg-white px-1">sendRequestAndWait(id, payload)</code> which executes both operations in parallel</span>
+                        <span className="font-ibm-plex-mono text-xs bg-[#0d1117] px-2 py-1 rounded mr-3 font-semibold">2</span>
+                        <span>Calls <code className="font-ibm-plex-mono text-xs bg-[#0d1117] px-1">sendRequestAndWait(id, payload)</code> which executes both operations in parallel</span>
                       </div>
                       <div className="flex items-start">
-                        <span className="font-ibm-plex-mono text-xs bg-white px-2 py-1 rounded mr-3 font-semibold">3</span>
-                        <span><code className="font-ibm-plex-mono text-xs bg-white px-1">addToStream</code> publishes message to engine-stream via XADD</span>
+                        <span className="font-ibm-plex-mono text-xs bg-[#0d1117] px-2 py-1 rounded mr-3 font-semibold">3</span>
+                        <span><code className="font-ibm-plex-mono text-xs bg-[#0d1117] px-1">addToStream</code> publishes message to engine-stream via XADD</span>
                       </div>
                       <div className="flex items-start">
-                        <span className="font-ibm-plex-mono text-xs bg-white px-2 py-1 rounded mr-3 font-semibold">4</span>
-                        <span><code className="font-ibm-plex-mono text-xs bg-white px-1">waitForMessage</code> creates Promise, registers callback in memory map with 5s timeout</span>
+                        <span className="font-ibm-plex-mono text-xs bg-[#0d1117] px-2 py-1 rounded mr-3 font-semibold">4</span>
+                        <span><code className="font-ibm-plex-mono text-xs bg-[#0d1117] px-1">waitForMessage</code> creates Promise, registers callback in memory map with 5s timeout</span>
                       </div>
                       <div className="flex items-start">
-                        <span className="font-ibm-plex-mono text-xs bg-white px-2 py-1 rounded mr-3 font-semibold">5</span>
+                        <span className="font-ibm-plex-mono text-xs bg-[#0d1117] px-2 py-1 rounded mr-3 font-semibold">5</span>
                         <span>Engine consumes message from engine-stream, processes order (validate, execute, store)</span>
                       </div>
                       <div className="flex items-start">
-                        <span className="font-ibm-plex-mono text-xs bg-white px-2 py-1 rounded mr-3 font-semibold">6</span>
+                        <span className="font-ibm-plex-mono text-xs bg-[#0d1117] px-2 py-1 rounded mr-3 font-semibold">6</span>
                         <span>Engine publishes callback to callback-queue via XADD with original correlation ID and status</span>
                       </div>
                       <div className="flex items-start">
-                        <span className="font-ibm-plex-mono text-xs bg-white px-2 py-1 rounded mr-3 font-semibold">7</span>
-                        <span>Subscriber's <code className="font-ibm-plex-mono text-xs bg-white px-1">runLoop</code> receives callback, extracts ID, finds matching callback in map</span>
+                        <span className="font-ibm-plex-mono text-xs bg-[#0d1117] px-2 py-1 rounded mr-3 font-semibold">7</span>
+                        <span>Subscriber's <code className="font-ibm-plex-mono text-xs bg-[#0d1117] px-1">runLoop</code> receives callback, extracts ID, finds matching callback in map</span>
                       </div>
                       <div className="flex items-start">
-                        <span className="font-ibm-plex-mono text-xs bg-white px-2 py-1 rounded mr-3 font-semibold">8</span>
-                        <span>Calls <code className="font-ibm-plex-mono text-xs bg-white px-1">this.callbacks[callbackId]()</code> to resolve Promise, deletes callback from map</span>
+                        <span className="font-ibm-plex-mono text-xs bg-[#0d1117] px-2 py-1 rounded mr-3 font-semibold">8</span>
+                        <span>Calls <code className="font-ibm-plex-mono text-xs bg-[#0d1117] px-1">this.callbacks[callbackId]()</code> to resolve Promise, deletes callback from map</span>
                       </div>
                       <div className="flex items-start">
-                        <span className="font-ibm-plex-mono text-xs bg-white px-2 py-1 rounded mr-3 font-semibold">9</span>
+                        <span className="font-ibm-plex-mono text-xs bg-[#0d1117] px-2 py-1 rounded mr-3 font-semibold">9</span>
                         <span>API request unblocks, returns response to client</span>
                       </div>
                     </div>
@@ -726,7 +726,7 @@ const result = await sendRequestAndWait(orderId, {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold text-black mb-6 font-dm-sans">
+                <h3 className="text-xl font-semibold text-[#f0f6fc] mb-6 font-dm-sans">
                   Risk Management & Liquidation Engine
                 </h3>
                 <div className="grid md:grid-cols-2 gap-8">
@@ -734,7 +734,7 @@ const result = await sendRequestAndWait(orderId, {
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       Margin Calculation
                     </h4>
-                    <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                    <div className="space-y-3 text-sm text-[#8b949e] leading-relaxed">
                       <div className="bg-black text-white p-4 font-ibm-plex-mono text-xs">
                         {`// Required margin calculation
 const requiredMargin = (openingPrice * qty) / leverage;
@@ -752,8 +752,8 @@ const remainingMargin = initialMargin + currentPnl;`}
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       Liquidation Triggers
                     </h4>
-                    <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
-                      <div className="bg-gray-50 p-4 space-y-2">
+                    <div className="space-y-3 text-sm text-[#8b949e] leading-relaxed">
+                      <div className="bg-[#161b22] p-4 space-y-2">
                         <div className="font-medium">
                           Automatic Liquidation When:
                         </div>
@@ -770,15 +770,15 @@ const remainingMargin = initialMargin + currentPnl;`}
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold text-black mb-6 font-dm-sans">
+                <h3 className="text-xl font-semibold text-[#f0f6fc] mb-6 font-dm-sans">
                   Performance & Scalability
                 </h3>
                 <div className="grid md:grid-cols-3 gap-6">
-                  <div className="border border-gray-200 p-6">
+                  <div className="border border-[#30363d] p-6">
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       In-Memory Processing
                     </h4>
-                    <div className="text-sm text-gray-700 space-y-2">
+                    <div className="text-sm text-[#8b949e] space-y-2">
                       <div>
                         • Open orders stored in memory for instant access
                       </div>
@@ -787,22 +787,22 @@ const remainingMargin = initialMargin + currentPnl;`}
                       <div>• Recovery from database on restart</div>
                     </div>
                   </div>
-                  <div className="border border-gray-200 p-6">
+                  <div className="border border-[#30363d] p-6">
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       Async Communication
                     </h4>
-                    <div className="text-sm text-gray-700 space-y-2">
+                    <div className="text-sm text-[#8b949e] space-y-2">
                       <div>• Redis streams for decoupled services</div>
                       <div>• Non-blocking order processing</div>
                       <div>• Promise-based callback system</div>
                       <div>• Timeout handling for failed operations</div>
                     </div>
                   </div>
-                  <div className="border border-gray-200 p-6">
+                  <div className="border border-[#30363d] p-6">
                     <h4 className="text-lg font-semibold mb-4 font-dm-sans">
                       Error Handling
                     </h4>
-                    <div className="text-sm text-gray-700 space-y-2">
+                    <div className="text-sm text-[#8b949e] space-y-2">
                       <div>• Graceful WebSocket reconnection</div>
                       <div>• Database transaction rollbacks</div>
                       <div>• Redis connection recovery</div>
@@ -814,9 +814,9 @@ const remainingMargin = initialMargin + currentPnl;`}
             </div>
           </div>
 
-          <div className="border border-gray-200 mb-16">
-            <div className="border-b border-gray-200 px-8 py-6">
-              <h2 className="text-2xl font-semibold text-black font-dm-sans tracking-tighter">
+          <div className="border border-[#30363d] mb-16">
+            <div className="border-b border-[#30363d] px-8 py-6">
+              <h2 className="text-2xl font-semibold text-[#f0f6fc] font-dm-sans tracking-tighter">
                 Docker Setup
               </h2>
             </div>
@@ -850,7 +850,7 @@ services:
                   <h3 className="text-lg font-medium mb-4 font-dm-sans">
                     Service Roles
                   </h3>
-                  <div className="space-y-4 text-sm text-gray-700">
+                  <div className="space-y-4 text-sm text-[#8b949e]">
                     <div>
                       <div className="font-medium mb-1">Redis</div>
                       <div>• Manages Redis streams for async communication</div>
@@ -863,7 +863,7 @@ services:
                       </div>
                       <div>• Accessed via Prisma ORM from the web server</div>
                     </div>
-                    <div className="bg-gray-50 p-3 rounded mt-4">
+                    <div className="bg-[#161b22] p-3 rounded mt-4">
                       <div className="font-medium text-sm">Quick Start:</div>
                       <div className="font-ibm-plex-mono text-xs mt-1">
                         docker compose up -d
@@ -876,15 +876,15 @@ services:
           </div>
 
           <div className="text-center">
-            <div className="border border-gray-200 p-12">
-              <h2 className="text-3xl font-medium text-black mb-6 font-dm-sans">
+            <div className="border border-[#30363d] p-12">
+              <h2 className="text-3xl font-medium text-[#f0f6fc] mb-6 font-dm-sans">
                 Ready to get{" "}
                 <span className="italic font-instrument-serif tracking-normal">
                   started
                 </span>
                 ?
               </h2>
-              <p className="text-sm md:text-md text-black mb-8 max-w-2xl mx-auto leading-relaxed font-ibm-plex-mono">
+              <p className="text-sm md:text-md text-[#f0f6fc] mb-8 max-w-2xl mx-auto leading-relaxed font-ibm-plex-mono">
                 Set up your development environment and start building with
                 tradevia. Join the world of limitless trading opportunities.
               </p>
