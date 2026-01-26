@@ -1,0 +1,61 @@
+FROM node:22.18-alpine AS base
+
+RUN apk add --no-cache wget
+
+RUN npm install -g pnpm turbo
+
+WORKDIR /app
+
+# Copy all files for turbo prune
+COPY . .
+
+# Prune monorepo to only include api-service and its dependencies
+RUN turbo prune --scope=api-service --docker
+
+FROM node:22.18-alpine AS installer
+
+RUN apk add --no-cache wget
+
+RUN npm install -g pnpm
+
+WORKDIR /app
+
+# Copy pruned monorepo
+COPY --from=base /app/out/json/ .
+COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+
+# Install dependencies
+RUN pnpm install --no-frozen-lockfile
+
+# Copy pruned source files
+COPY --from=base /app/out/full/ .
+
+# Generate Prisma client
+WORKDIR /app/packages/prisma
+RUN pnpm prisma generate
+
+# Build using Turbo
+WORKDIR /app
+RUN pnpm turbo run build --filter=api-service^...
+
+FROM node:22.18-alpine AS runner
+
+RUN apk add --no-cache wget
+
+RUN npm install -g pnpm
+
+WORKDIR /app
+
+# Copy built application
+COPY --from=installer /app/apps/api-service/dist ./dist
+COPY --from=installer /app/apps/api-service/package.json ./
+COPY --from=installer /app/node_modules ./node_modules
+COPY --from=installer /app/packages ./packages
+
+# Create entrypoint script
+RUN echo '#!/bin/sh\nset -e\ncd /app/packages/prisma\npnpm prisma migrate deploy\ncd /app\nnode dist/index.js' > /app/entrypoint.sh && \
+    chmod +x /app/entrypoint.sh
+
+EXPOSE 3001
+
+CMD ["/app/entrypoint.sh"]

@@ -14,10 +14,10 @@ const allowedOrigins = new Set([
   "http://localhost:3200",
   "http://localhost:3000",
   "http://localhost:3001",
-  "https://exness.dakshv.in",
-  "http://exness.dakshv.in",
-  "https://www.exness.dakshv.in",
-  "http://www.exness.dakshv.in"
+  "https://tradevia.dakshv.in",
+  "http://tradevia.dakshv.in",
+  "https://www.tradevia.dakshv.in",
+  "http://www.tradevia.dakshv.in"
 ]);
 
 app.use(

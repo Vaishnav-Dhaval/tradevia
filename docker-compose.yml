@@ -32,7 +32,7 @@ services:
   api-service:
     build:
       context: .
-      dockerfile: apps/api-service/Dockerfile
+      dockerfile: Dockerfile.api-service
     restart: unless-stopped
     ports:
       - "3001:3001"
@@ -55,7 +55,7 @@ services:
   engine-service:
     build:
       context: .
-      dockerfile: apps/engine-service/Dockerfile
+      dockerfile: Dockerfile.engine
     restart: unless-stopped
     env_file:
       - .env
@@ -74,7 +74,7 @@ services:
   price-poller-service:
     build:
       context: .
-      dockerfile: apps/price-poller-service/Dockerfile
+      dockerfile: Dockerfile.price-poller
     restart: unless-stopped
     env_file:
       - .env
