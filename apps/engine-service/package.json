@@ -17,9 +17,9 @@
     "@tradevia/typescript-config": "workspace:*"
   },
   "dependencies": {
+    "@tradevia/config": "workspace:*",
     "@tradevia/prisma": "workspace:*",
     "@tradevia/redis": "workspace:*",
-    "dotenv": "^17.2.2",
     "ioredis": "^5.7.0"
   }
 }
