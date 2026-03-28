@@ -29,16 +29,23 @@ const addToStream = async (id: string, request: any) => {
     `[CONTROLLER] Adding order ${id} to engine-stream:`,
     JSON.stringify(request, null, 2)
   );
-  await redis.xadd(
-    "engine-stream",
-    "*",
-    "data",
-    JSON.stringify({
-      id,
-      request,
-    })
-  );
-  console.log(`[CONTROLLER] Successfully added order ${id} to engine-stream`);
+  try {
+    console.log("Redis status:", redis.status);
+    const streamId = await redis.xadd(
+      "engine-stream",
+      "*",
+      "data",
+      JSON.stringify({
+        id,
+        request,
+      })
+    );
+    console.log(`[CONTROLLER] Successfully added order ${id} to engine-stream, stream ID: ${streamId}`);
+    return streamId;
+  } catch (error) {
+    console.error(`[CONTROLLER] Failed to add order ${id} to engine-stream:`, error);
+    throw error;
+  }
 };
 
 const subscriber = new RedisSubscriber();
@@ -51,7 +58,6 @@ export async function sendRequestAndWait(id: string, request: any) {
       addToStream(id, request),
       subscriber.waitForMessage(id),
     ]);
-
     console.log(`[CONTROLLER] Both promises resolved for order ${id}`);
     return results;
   } catch (error) {
@@ -118,35 +124,35 @@ export const createOrder = async (req: Request, res: Response) => {
 
     console.log(`[CONTROLLER] Sending order ${id} to engine...`);
     const [, callback] = await sendRequestAndWait(id, payload);
-    
+
     console.log(
       `[CONTROLLER] Order ${id} callback received:`,
       callback
     );
 
     if (callback.status === "insufficient_balance") {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: "Insufficient balance",
         message: "You don't have enough balance to place this order"
       });
     }
-    
+
     if (callback.status === "no_price") {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: "Price not available",
         message: "Market price is not available for this asset"
       });
     }
-    
+
     if (callback.status === "invalid_order") {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: "Invalid order",
         message: "Order parameters are invalid"
       });
     }
-    
+
     if (callback.status !== "created") {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: "Order creation failed",
         message: `Order was not created. Status: ${callback.status}`
       });

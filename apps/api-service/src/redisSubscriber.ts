@@ -7,12 +7,27 @@ export class RedisSubscriber {
   private callbacks: Record<string, (data: Record<string, string>) => void>;
 
   constructor() {
-    this.client = redis
+    // Use a dedicated connection for blocking reads so the main
+    // redis client stays free for xadd / other commands
+    this.client = redis.duplicate();
     this.callbacks = {};
+
+    this.client.on("error", (err) => {
+      console.error("[SUBSCRIBER] Redis connection error:", err.message);
+    });
+
+    this.client.on("ready", () => {
+      console.log("[SUBSCRIBER] Redis connection ready");
+    });
+
     this.runLoop();
   }
 
   async runLoop() {
+    console.log(`[SUBSCRIBER] Starting run loop`);
+    // "$" = only read NEW messages arriving after this point
+    // "0" would replay the entire stream history on every restart
+    let lastId = "$";
     while (true) {
       try {
         const response = await this.client.xread(
@@ -20,7 +35,7 @@ export class RedisSubscriber {
           0,
           "STREAMS",
           CALLBACK_QUEUE,
-          "$"
+          lastId
         );
         if (!response || response.length === 0) continue;
 
@@ -28,6 +43,7 @@ export class RedisSubscriber {
         if (!messages || messages.length === 0) continue;
 
         for (const [id, rawFields] of messages) {
+          lastId = id;
           const fields = rawFields as string[];
 
           const data: Record<string, string> = {};
@@ -47,6 +63,8 @@ export class RedisSubscriber {
         }
       } catch (err) {
         console.error(`[SUBSCRIBER] xread error:`, err);
+        // Brief pause before retrying to avoid tight error loop
+        await new Promise(r => setTimeout(r, 1000));
       }
     }
   }
@@ -60,7 +78,7 @@ export class RedisSubscriber {
           delete this.callbacks[callbackId];
           reject(new Error("Timeout waiting for message"));
         }
-      }, 5000);
+      }, 15000);
 
       this.callbacks[callbackId] = (data: Record<string, string>) => {
         clearTimeout(timer);

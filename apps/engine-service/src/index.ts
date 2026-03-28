@@ -7,6 +7,15 @@ import { prisma } from "@tradevia/prisma";
 
 const client = redis.duplicate();
 
+console.log("Redis status:", client.status);
+client.on("connect", () => {
+  console.log("Redis connected");
+});
+client.on("error", (err) => {
+  console.log("Redis error:", err);
+});
+
+
 // Health check server
 const healthServer = http.createServer((req, res) => {
   if (req.url === "/health") {
@@ -76,9 +85,9 @@ async function updateBalanceInDatabase(userId: string, symbol: string, newBalanc
   }
 }
 
-function getMemBalance(userId: string, symbol: string, snapshot?: Array<{symbol:string; balance:number; decimals:number}>) {
+function getMemBalance(userId: string, symbol: string, snapshot?: Array<{ symbol: string; balance: number; decimals: number }>) {
   if (!balances[userId]) balances[userId] = {};
-  
+
   if (snapshot) {
     const snap = snapshot.find(a => a.symbol === symbol);
     if (snap) {
@@ -88,7 +97,7 @@ function getMemBalance(userId: string, symbol: string, snapshot?: Array<{symbol:
       return val;
     }
   }
-  
+
   if (balances[userId][symbol] == null) {
     balances[userId][symbol] = 0;
   }
@@ -107,7 +116,7 @@ async function createSnapshot() {
       const symbol = order.asset;
       const currentBidPrice = bidPrices[symbol];
       const currentAskPrice = askPrices[symbol];
-      
+
       if (!currentBidPrice || !currentAskPrice) continue;
 
       let currentPnl = 0;
@@ -248,7 +257,7 @@ async function processOrderLiquidation(
     console.log(`error on ${context} closing:`, e);
   }
 
-  await client.xadd(
+  await redis.xadd(
     CALLBACK_QUEUE,
     "*",
     "id", order.id,
@@ -334,6 +343,7 @@ async function engine() {
         }
 
         const { kind, payload } = msg.request || msg;
+        // console.log({ kind, payload });
 
         switch (kind) {
           case "price-update": {
@@ -350,7 +360,7 @@ async function engine() {
                 prices[symbol] = currentPrice;
                 bidPrices[symbol] = bidPrice;
                 askPrices[symbol] = askPrice;
-                console.log(`[ENGINE] Price updated: ${symbol} = ${currentPrice.toFixed(2)} (bid ${bidPrice.toFixed(2)}, ask ${askPrice.toFixed(2)})`);
+                // console.log(`[ENGINE] Price updated: ${symbol} = ${currentPrice.toFixed(2)} (bid ${bidPrice.toFixed(2)}, ask ${askPrice.toFixed(2)})`);
 
                 for (let i = open_orders.length - 1; i >= 0; i--) {
                   const order = open_orders[i];
@@ -386,14 +396,14 @@ async function engine() {
             const lev = safeNum(leverage, 1);
             if (!userId || !asset || !side || !orderId || !Number.isFinite(q) || q <= 0) {
               console.log("missing/invalid fields", { orderId, userId, asset, q, side });
-              await client.xadd(CALLBACK_QUEUE, "*", "id", orderId || "unknown", "status", "invalid_order")
+              await redis.xadd(CALLBACK_QUEUE, "*", "id", orderId || "unknown", "status", "invalid_order")
                 .catch(err => console.error("Failed to send invalid_order:", err));
               break;
             }
 
             if (open_orders.some(o => o.id === orderId)) {
               console.log(`[ENGINE] Duplicate create-order ${orderId} ignored`);
-              await client.xadd(CALLBACK_QUEUE, "*", "id", orderId, "status", "created")
+              await redis.xadd(CALLBACK_QUEUE, "*", "id", orderId, "status", "created")
                 .catch(err => console.error("Failed to send created callback:", err));
               break;
             }
@@ -402,7 +412,7 @@ async function engine() {
             const askPrice = askPrices[asset];
             if (!bidPrice || !askPrice) {
               console.log("no price available", { orderId, asset, availablePrices: Object.keys(bidPrices) });
-              await client.xadd(CALLBACK_QUEUE, "*", "id", orderId, "status", "no_price")
+              await redis.xadd(CALLBACK_QUEUE, "*", "id", orderId, "status", "no_price")
                 .catch(err => console.error("Failed to send no_price:", err));
               break;
             }
@@ -420,7 +430,7 @@ async function engine() {
               leverage: lev,
               hasEnoughBalance: usdc >= requiredMargin
             });
-            
+
             if (usdc >= requiredMargin) {
               const newBal = setMemBalance(userId, "USDC", usdc - requiredMargin);
               await updateBalanceInDatabase(userId, "USDC", newBal);
@@ -450,11 +460,11 @@ async function engine() {
                 createdAt: new Date(order.createdAt).toISOString()
               });
 
-              await client.xadd(CALLBACK_QUEUE, "*", "id", orderId, "status", "created")
+              await redis.xadd(CALLBACK_QUEUE, "*", "id", orderId, "status", "created")
                 .catch(err => console.error("Failed to send created callback:", err));
             } else {
               console.log("Insufficient balance", { orderId, userId, requiredMargin, usdc });
-              await client.xadd(CALLBACK_QUEUE, "*", "id", orderId, "status", "insufficient_balance")
+              await redis.xadd(CALLBACK_QUEUE, "*", "id", orderId, "status", "insufficient_balance")
                 .catch(err => console.error("Failed to send insufficient_balance:", err));
             }
             break;
@@ -464,14 +474,14 @@ async function engine() {
             console.log(`[ENGINE] Processing close-order:`, payload);
             const { orderId, userId, closeReason, pnl } = payload ?? {};
             if (!orderId || !userId) {
-              await client.xadd(CALLBACK_QUEUE, "*", "id", orderId || "unknown", "status", "invalid_close_request")
+              await redis.xadd(CALLBACK_QUEUE, "*", "id", orderId || "unknown", "status", "invalid_close_request")
                 .catch(err => console.error("Failed to send invalid_close_request:", err));
               break;
             }
 
             const idx = open_orders.findIndex(o => o.id === orderId && o.userId === userId);
             if (idx === -1) {
-              await client.xadd(CALLBACK_QUEUE, "*", "id", orderId, "status", "order_not_found")
+              await redis.xadd(CALLBACK_QUEUE, "*", "id", orderId, "status", "order_not_found")
                 .catch(err => console.error("Failed to send order_not_found:", err));
               break;
             }
@@ -521,7 +531,7 @@ async function engine() {
 
             open_orders.splice(idx, 1);
 
-            await client.xadd(
+            await redis.xadd(
               CALLBACK_QUEUE,
               "*",
               "id", orderId,
