@@ -175,7 +175,7 @@ export const closeOrder = async (req: Request, res: Response) => {
       return res.status(401).json({ error: "user not found" });
     }
 
-    const { orderId } = req.params;
+    const orderId = req.params.orderId as string;
     const result = CloseOrderBodySchema.safeParse(req.body);
     if (!result.success) {
       return res.status(400).json({ error: result.error.message });
@@ -281,7 +281,7 @@ export const getOrderById = async (req: Request, res: Response) => {
       return res.status(401).json({ error: "user not found" });
     }
 
-    const { orderId } = req.params;
+    const orderId = req.params.orderId as string;
 
     if (!orderId) {
       return res.status(400).json({ error: "orderId is required" });

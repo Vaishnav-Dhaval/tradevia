@@ -1,7 +1,7 @@
 FROM node:22.18-alpine AS base
 
 RUN apk add --no-cache wget
-RUN npm install -g pnpm turbo
+RUN npm install -g bun turbo
 
 WORKDIR /app
 COPY . .
@@ -11,35 +11,37 @@ RUN turbo prune --scope=engine-service --docker
 FROM node:22.18-alpine AS builder
 
 RUN apk add --no-cache wget
-RUN npm install -g pnpm
+RUN npm install -g bun
 
 WORKDIR /app
 
 COPY --from=base /app/out/json/ ./
-COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=base /app/out/bun.lock ./bun.lock
 COPY --from=base /app/turbo.json ./turbo.json
 
-RUN pnpm install --no-frozen-lockfile
+RUN bun install
 
 COPY --from=base /app/out/full/ .
 
 # Prisma
 WORKDIR /app/packages/prisma
-RUN pnpm prisma generate
+RUN bunx prisma generate
 
 # FORCE BUILD (disable turbo cache)
 WORKDIR /app
-RUN pnpm turbo run build --filter=engine-service --no-cache
+RUN bunx turbo run build --filter=engine-service --no-cache
 
 FROM node:22.18-alpine AS runner
 
 RUN apk add --no-cache wget
-RUN npm install -g pnpm
+RUN npm install -g bun
 
 WORKDIR /app
 
 # Copy FULL workspace output
-COPY --from=builder /app /app
+COPY --from=builder --chown=node:node /app /app
+
+USER node
 
 WORKDIR /app/apps/engine-service
 

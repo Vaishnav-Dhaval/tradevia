@@ -8,22 +8,26 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "start:api": "cd apps/api-service && pnpm start",
-    "start:engine": "cd apps/engine-service && pnpm start",
-    "start:price-poller": "cd apps/price-poller-service && pnpm start",
-    "dev:api": "cd apps/api-service && pnpm dev",
-    "dev:engine": "cd apps/engine-service && pnpm dev",
-    "dev:price-poller": "cd apps/price-poller-service && pnpm dev",
-    "prisma:generate": "cd packages/prisma && pnpm prisma generate",
-    "prisma:migrate": "cd packages/prisma && pnpm prisma migrate dev",
-    "prisma:migrate:deploy": "cd packages/prisma && pnpm prisma migrate deploy"
+    "start:api": "cd apps/api-service && bun run start",
+    "start:engine": "cd apps/engine-service && bun run start",
+    "start:price-poller": "cd apps/price-poller-service && bun run start",
+    "dev:api": "cd apps/api-service && bun run dev",
+    "dev:engine": "cd apps/engine-service && bun run dev",
+    "dev:price-poller": "cd apps/price-poller-service && bun run dev",
+    "prisma:generate": "cd packages/prisma && bunx prisma generate",
+    "prisma:migrate": "cd packages/prisma && bunx prisma migrate dev",
+    "prisma:migrate:deploy": "cd packages/prisma && bunx prisma migrate deploy"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
     "turbo": "^2.5.6",
     "typescript": "5.9.2"
   },
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "bun@1.3.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "engines": {
     "node": ">=18"
   }
