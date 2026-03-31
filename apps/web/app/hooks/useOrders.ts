@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { orderService } from "../services/order.service";
 import toast from "react-hot-toast";
-
+import { formatErrorMessage } from "../lib/utils";
 type OrderType = 'long' | 'short';
 
 export const useCreateOrder = () => {
@@ -23,7 +23,7 @@ export const useCreateOrder = () => {
         },
         onError: (error: any) => {
             console.error('Create order error:', error);
-            const errorMessage = error?.response?.data?.message || error?.response?.data?.error || 'Create order failed';
+            const errorMessage = formatErrorMessage(error, 'Create order failed');
             toast.error(errorMessage);
         }
     })
@@ -59,7 +59,7 @@ export const useCloseOrder = () => {
         },
         onError: (error: any) => {
             console.error('Close order error:', error);
-            toast.error(error?.response?.data?.error || 'Close order failed');
+            toast.error(formatErrorMessage(error, 'Close order failed'));
         }
     })
 }

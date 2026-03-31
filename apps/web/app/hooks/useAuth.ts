@@ -3,6 +3,7 @@ import { authService } from "../services/auth.service";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { User, LoginRequest, RegisterRequest } from "../types/user.type";
+import { formatErrorMessage } from "../lib/utils";
 
 
 export const useAuth = () => {
@@ -23,7 +24,7 @@ export const useAuth = () => {
             toast.success('Login successful!');
         },
         onError: (error: any) => {
-            const errorMessage = error?.response?.data?.error || 'Login failed';
+            const errorMessage = formatErrorMessage(error, 'Login failed');
             toast.error(errorMessage);
         }
     });
@@ -36,7 +37,7 @@ export const useAuth = () => {
             router.push('/');
         },
         onError: (error: any) => {
-            const errorMessage = error?.response?.data?.error || 'Registration failed';
+            const errorMessage = formatErrorMessage(error, 'Registration failed');
             toast.error(errorMessage);
         }
     });
@@ -49,7 +50,7 @@ export const useAuth = () => {
             toast.success('Logout successful');
         },
         onError: (error: any) => {
-            const errorMessage = error?.response?.data?.error || 'Logout failed';
+            const errorMessage = formatErrorMessage(error, 'Logout failed');
             toast.error(errorMessage);
         }
     });
