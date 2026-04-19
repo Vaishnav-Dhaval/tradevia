@@ -1,0 +1,56 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    name: Build & Push ${{ matrix.service }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: api-service
+            dockerfile: Dockerfile.api-service
+            service_tag: api
+          - service: engine-service
+            dockerfile: Dockerfile.engine
+            service_tag: engine
+          - service: price-poller-service
+            dockerfile: Dockerfile.price-poller
+            service_tag: price-poller
+          - service: web
+            dockerfile: Dockerfile.web
+            service_tag: web
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: |
+            imgbox/tradevia:${{ matrix.service_tag }}-latest
+            imgbox/tradevia:${{ matrix.service_tag }}-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
