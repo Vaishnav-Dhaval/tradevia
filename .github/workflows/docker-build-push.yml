@@ -7,25 +7,92 @@ on:
   workflow_dispatch:
 
 jobs:
+  filter:
+    name: Check for Changes
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      should_run: ${{ steps.set-matrix.outputs.should_run }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Path Filter
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            api:
+              - 'apps/api-service/**'
+              - 'packages/**'
+              - 'Dockerfile.api-service'
+              - 'bun.lock'
+              - 'turbo.json'
+            engine:
+              - 'apps/engine-service/**'
+              - 'packages/**'
+              - 'Dockerfile.engine'
+              - 'bun.lock'
+              - 'turbo.json'
+            price-poller:
+              - 'apps/price-poller-service/**'
+              - 'packages/redis/**'
+              - 'Dockerfile.price-poller'
+              - 'bun.lock'
+              - 'turbo.json'
+            web:
+              - 'apps/web/**'
+              - 'packages/ui/**'
+              - 'packages/types/**'
+              - 'Dockerfile.web'
+              - 'bun.lock'
+              - 'turbo.json'
+
+      - name: Generate Matrix
+        id: set-matrix
+        run: |
+          SERVICES='[]'
+          
+          # Function to add service to matrix
+          add_service() {
+            local name=$1
+            local file=$2
+            local tag=$3
+            SERVICES=$(echo $SERVICES | jq -c ". + [{\"service\": \"$name\", \"dockerfile\": \"$file\", \"service_tag\": \"$tag\"}]")
+          }
+          
+          # Logic to determine which services to build
+          if [[ "${{ steps.filter.outputs.api }}" == 'true' || "${{ github.event_name }}" == 'workflow_dispatch' ]]; then
+            add_service "api-service" "Dockerfile.api-service" "api"
+          fi
+          if [[ "${{ steps.filter.outputs.engine }}" == 'true' || "${{ github.event_name }}" == 'workflow_dispatch' ]]; then
+            add_service "engine-service" "Dockerfile.engine" "engine"
+          fi
+          if [[ "${{ steps.filter.outputs.price-poller }}" == 'true' || "${{ github.event_name }}" == 'workflow_dispatch' ]]; then
+            add_service "price-poller-service" "Dockerfile.price-poller" "price-poller"
+          fi
+          if [[ "${{ steps.filter.outputs.web }}" == 'true' || "${{ github.event_name }}" == 'workflow_dispatch' ]]; then
+            add_service "web" "Dockerfile.web" "web"
+          fi
+          
+          # Determine if anything should run
+          COUNT=$(echo $SERVICES | jq '. | length')
+          if [ "$COUNT" -gt 0 ]; then
+            echo "should_run=true" >> $GITHUB_OUTPUT
+            echo "matrix={\"include\":$SERVICES}" >> $GITHUB_OUTPUT
+          else
+            echo "should_run=false" >> $GITHUB_OUTPUT
+            echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
+          fi
+
   build-and-push:
     name: Build & Push ${{ matrix.service }}
+    needs: filter
+    if: ${{ needs.filter.outputs.should_run == 'true' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - service: api-service
-            dockerfile: Dockerfile.api-service
-            service_tag: api
-          - service: engine-service
-            dockerfile: Dockerfile.engine
-            service_tag: engine
-          - service: price-poller-service
-            dockerfile: Dockerfile.price-poller
-            service_tag: price-poller
-          - service: web
-            dockerfile: Dockerfile.web
-            service_tag: web
+      matrix: ${{ fromJSON(needs.filter.outputs.matrix) }}
 
     steps:
       - name: Checkout code
