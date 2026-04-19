@@ -24,7 +24,7 @@ COPY --from=base /app/out/full/ .
 
 # Prisma Generate
 WORKDIR /app/packages/prisma
-RUN bunx prisma generate
+RUN DATABASE_URL=postgresql://dummy:dummy@localhost:5432/dummy bunx prisma generate
 
 FROM oven/bun:1.2 AS runner
 
