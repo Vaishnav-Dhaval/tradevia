@@ -1,17 +1,13 @@
-FROM node:22.18-alpine AS base
+FROM oven/bun:1.2 AS base
 
-RUN apk add --no-cache wget
-RUN npm install -g bun turbo
+RUN bun add -g turbo
 
 WORKDIR /app
 COPY . .
 
 RUN turbo prune --scope=api-service --docker
 
-FROM node:22.18-alpine AS builder
-
-RUN apk add --no-cache wget
-RUN npm install -g bun
+FROM oven/bun:1.2 AS builder
 
 WORKDIR /app
 
@@ -23,26 +19,22 @@ RUN bun install
 
 COPY --from=base /app/out/full/ .
 
+# Prisma Generate
 WORKDIR /app/packages/prisma
 RUN bunx prisma generate
 
-WORKDIR /app
-RUN bunx turbo run build --filter=api-service
+FROM oven/bun:1.2 AS runner
 
-FROM node:22.18-alpine AS runner
-
-RUN apk add --no-cache wget
-RUN npm install -g bun
+# Install OpenSSL for Prisma
+RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# COPY THE WHOLE BUILT WORKSPACE — NO ASSUMPTIONS
-COPY --from=builder --chown=node:node /app /app
-
-USER node
+# COPY THE WHOLE PRUNED WORKSPACE
+COPY --from=builder /app /app
 
 WORKDIR /app/apps/api-service
 
 EXPOSE 3000
 
-CMD ["node", "dist/index.js"]
+CMD ["bun", "run", "src/index.ts"]
