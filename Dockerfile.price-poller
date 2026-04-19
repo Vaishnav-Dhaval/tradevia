@@ -21,6 +21,13 @@ COPY --from=base /app/out/full/ .
 
 FROM oven/bun:1.2 AS runner
 
+LABEL org.opencontainers.image.description="TradeVia Price Poller Service"
+LABEL org.opencontainers.image.env="REDIS_URL,NODE_ENV,PORT"
+
+ENV NODE_ENV=production
+ENV PORT=3003
+ENV REDIS_URL=
+
 WORKDIR /app
 
 # COPY THE WHOLE PRUNED WORKSPACE
