@@ -117,7 +117,7 @@ jobs:
           file: ${{ matrix.dockerfile }}
           push: true
           tags: |
-            imgbox/tradevia:${{ matrix.service_tag }}-latest
-            imgbox/tradevia:${{ matrix.service_tag }}-${{ github.sha }}
+            imgbox/${{ matrix.service }}:latest
+            imgbox/${{ matrix.service }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
