@@ -52,30 +52,26 @@ jobs:
         id: set-matrix
         run: |
           SERVICES='[]'
+          IS_MANUAL="${{ github.event_name == 'workflow_dispatch' }}"
           
-          # Function to add service to matrix
           add_service() {
-            local name=$1
-            local file=$2
-            local tag=$3
-            SERVICES=$(echo $SERVICES | jq -c ". + [{\"service\": \"$name\", \"dockerfile\": \"$file\", \"service_tag\": \"$tag\"}]")
+            SERVICES=$(echo $SERVICES | jq -c ". + [{\"service\": \"$1\", \"dockerfile\": \"$2\", \"service_tag\": \"$3\"}]")
           }
           
-          # Logic to determine which services to build
-          if [[ "${{ steps.filter.outputs.api }}" == 'true' || "${{ github.event_name }}" == 'workflow_dispatch' ]]; then
+          # Manual trigger => Build all
+          if [ "$IS_MANUAL" = "true" ]; then
             add_service "api-service" "Dockerfile.api-service" "api"
-          fi
-          if [[ "${{ steps.filter.outputs.engine }}" == 'true' || "${{ github.event_name }}" == 'workflow_dispatch' ]]; then
             add_service "engine-service" "Dockerfile.engine" "engine"
-          fi
-          if [[ "${{ steps.filter.outputs.price-poller }}" == 'true' || "${{ github.event_name }}" == 'workflow_dispatch' ]]; then
             add_service "price-poller-service" "Dockerfile.price-poller" "price-poller"
-          fi
-          if [[ "${{ steps.filter.outputs.web }}" == 'true' || "${{ github.event_name }}" == 'workflow_dispatch' ]]; then
             add_service "web" "Dockerfile.web" "web"
+          else
+            # Push trigger => Build changed only
+            [[ "${{ steps.filter.outputs.api }}" == 'true' ]] && add_service "api-service" "Dockerfile.api-service" "api"
+            [[ "${{ steps.filter.outputs.engine }}" == 'true' ]] && add_service "engine-service" "Dockerfile.engine" "engine"
+            [[ "${{ steps.filter.outputs.price-poller }}" == 'true' ]] && add_service "price-poller-service" "Dockerfile.price-poller" "price-poller"
+            [[ "${{ steps.filter.outputs.web }}" == 'true' ]] && add_service "web" "Dockerfile.web" "web"
           fi
           
-          # Determine if anything should run
           COUNT=$(echo $SERVICES | jq '. | length')
           if [ "$COUNT" -gt 0 ]; then
             echo "should_run=true" >> $GITHUB_OUTPUT
@@ -84,6 +80,8 @@ jobs:
             echo "should_run=false" >> $GITHUB_OUTPUT
             echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
           fi
+          
+          echo "Status: should_run=$([[ $COUNT -gt 0 ]] && echo true || echo false), count=$COUNT"
 
   build-and-push:
     name: Build & Push ${{ matrix.service }}
