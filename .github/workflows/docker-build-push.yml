@@ -52,20 +52,21 @@ jobs:
         id: set-matrix
         run: |
           SERVICES='[]'
-          IS_MANUAL="${{ github.event_name == 'workflow_dispatch' }}"
           
+          # Function to add service to matrix
           add_service() {
             SERVICES=$(echo $SERVICES | jq -c ". + [{\"service\": \"$1\", \"dockerfile\": \"$2\", \"service_tag\": \"$3\"}]")
           }
           
-          # Manual trigger => Build all
-          if [ "$IS_MANUAL" = "true" ]; then
+          # Force all if manual, else check filters
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Event is workflow_dispatch. Forcing all services."
             add_service "api-service" "Dockerfile.api-service" "api"
             add_service "engine-service" "Dockerfile.engine" "engine"
             add_service "price-poller-service" "Dockerfile.price-poller" "price-poller"
             add_service "web" "Dockerfile.web" "web"
           else
-            # Push trigger => Build changed only
+            echo "Event is ${{ github.event_name }}. Checking filters."
             [[ "${{ steps.filter.outputs.api }}" == 'true' ]] && add_service "api-service" "Dockerfile.api-service" "api"
             [[ "${{ steps.filter.outputs.engine }}" == 'true' ]] && add_service "engine-service" "Dockerfile.engine" "engine"
             [[ "${{ steps.filter.outputs.price-poller }}" == 'true' ]] && add_service "price-poller-service" "Dockerfile.price-poller" "price-poller"
@@ -73,6 +74,8 @@ jobs:
           fi
           
           COUNT=$(echo $SERVICES | jq '. | length')
+          echo "Services to build: $COUNT"
+          
           if [ "$COUNT" -gt 0 ]; then
             echo "should_run=true" >> $GITHUB_OUTPUT
             echo "matrix={\"include\":$SERVICES}" >> $GITHUB_OUTPUT
@@ -81,7 +84,7 @@ jobs:
             echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
           fi
           
-          echo "Status: should_run=$([[ $COUNT -gt 0 ]] && echo true || echo false), count=$COUNT"
+          echo "Matrix: $(echo $SERVICES | jq -c .)"
 
   build-and-push:
     name: Build & Push ${{ matrix.service }}
