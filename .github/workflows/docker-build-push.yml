@@ -2,9 +2,8 @@ name: Docker Build and Push
 
 on:
   push:
-    branches:
-      - main
-      - feat/github-workflow
+    tags:
+      - 'v*'   # runs only for tags like v1.0, v2.3
   workflow_dispatch:
 
 jobs:
@@ -52,6 +51,6 @@ jobs:
           push: true
           tags: |
             imgbox/${{ matrix.service_tag }}:latest
-            imgbox/${{ matrix.service_tag }}:${{ github.sha }}
+            imgbox/${{ matrix.service_tag }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
