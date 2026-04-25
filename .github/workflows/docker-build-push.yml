@@ -3,13 +3,18 @@ name: Docker Build and Push
 on:
   push:
     tags:
-      - 'v*'   # runs only for tags like v1.0, v2.3
+      - 'v*.*.*'   # run only semantic version tags like v1.2.3
   workflow_dispatch:
+
+concurrency:
+  group: docker-build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-and-push:
     name: Build & Push ${{ matrix.service }}
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
       matrix:
@@ -31,6 +36,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Extract version info
+        id: vars
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "major=$(echo $VERSION | cut -d. -f1)" >> $GITHUB_OUTPUT
+          echo "minor=$(echo $VERSION | cut -d. -f2)" >> $GITHUB_OUTPUT
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -44,13 +57,32 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ${{ matrix.dockerfile }}
           push: true
+
           tags: |
             imgbox/${{ matrix.service_tag }}:latest
-            imgbox/${{ matrix.service_tag }}:${{ github.ref_name }}
+            imgbox/${{ matrix.service_tag }}:v${{ steps.vars.outputs.version }}
+            imgbox/${{ matrix.service_tag }}:v${{ steps.vars.outputs.major }}
+            imgbox/${{ matrix.service_tag }}:v${{ steps.vars.outputs.major }}.${{ steps.vars.outputs.minor }}
+
+          labels: |
+            org.opencontainers.image.source=${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.version=${{ github.ref_name }}
+
+          build-args: |
+            APP_VERSION=${{ github.ref_name }}
+
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # Security scan
+      - name: Scan image
+        uses: aquasecurity/trivy-action@v0.20.0
+        with:
+          image-ref: imgbox/${{ matrix.service_tag }}:v${{ steps.vars.outputs.version }}
