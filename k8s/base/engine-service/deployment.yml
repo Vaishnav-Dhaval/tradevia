@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: engine-service
+  labels:
+    app: engine-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: engine-service
+  template:
+    metadata:
+      labels:
+        app: engine-service
+    spec:
+      containers:
+        - name: engine-service
+          image: imgbox/engine:latest
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c", "cd /app/packages/prisma && bunx prisma generate && bunx prisma db push && cd /app/apps/engine-service && bun run src/index.ts"]
+          ports:
+            - containerPort: 3002
+          env:
+            - name: REDIS_URL
+              value: redis://redis:6379
+            - name: DATABASE_URL
+              value: postgresql://myuser:mypassword@postgres:5432/trading_db
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: engine-service
+spec:
+  selector:
+    app: engine-service
+  ports:
+    - protocol: TCP
+      port: 3002
+      targetPort: 3002
+  type: ClusterIP

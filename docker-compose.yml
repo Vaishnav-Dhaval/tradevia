@@ -30,6 +30,7 @@ services:
       - tradevia-network
 
   api-service:
+    image: imgbox/api:latest
     build:
       context: .
       dockerfile: Dockerfile.api-service
@@ -58,6 +59,7 @@ services:
       - tradevia-network
 
   engine-service:
+    image: imgbox/engine:latest
     build:
       context: .
       dockerfile: Dockerfile.engine
@@ -80,6 +82,7 @@ services:
       - tradevia-network
 
   price-poller-service:
+    image: imgbox/price-poller:latest
     build:
       context: .
       dockerfile: Dockerfile.price-poller
@@ -102,6 +105,7 @@ services:
       - tradevia-network
 
   web:
+    image: imgbox/web:latest
     build:
       context: .
       dockerfile: Dockerfile.web

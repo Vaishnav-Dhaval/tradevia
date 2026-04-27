@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: price-poller-service
+  labels:
+    app: price-poller-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: price-poller-service
+  template:
+    metadata:
+      labels:
+        app: price-poller-service
+    spec:
+      containers:
+        - name: price-poller-service
+          image: imgbox/price-poller:latest
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c", "cd /app/packages/prisma && bunx prisma db push && cd /app/apps/price-poller-service && bun run src/index.ts"]
+          ports:
+            - containerPort: 3003
+          env:
+            - name: REDIS_URL
+              value: redis://redis:6379
+            - name: DATABASE_URL
+              value: postgresql://myuser:mypassword@postgres:5432/trading_db
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: price-poller-service
+spec:
+  selector:
+    app: price-poller-service
+  ports:
+    - protocol: TCP
+      port: 3003
+      targetPort: 3003
+  type: ClusterIP
