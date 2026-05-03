@@ -18,7 +18,7 @@ spec:
         - name: price-poller-service
           image: imgbox/price-poller:latest
           imagePullPolicy: IfNotPresent
-          command: ["sh", "-c", "cd /app/packages/prisma && bunx prisma db push && cd /app/apps/price-poller-service && bun run src/index.ts"]
+          command: ["bun", "run", "src/index.ts"]
           ports:
             - containerPort: 3003
           env:

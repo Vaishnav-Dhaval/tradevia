@@ -9,7 +9,7 @@ down:
 	docker compose down
 
 build:
-	docker compose build
+	docker compose build --no-cache
 
 up:
 	docker compose up -d
@@ -22,8 +22,8 @@ all: down docker-clean build up
 # K3d / K8s Commands
 k3d-up:
 	k3d cluster start $(CLUSTER_NAME) || k3d cluster create $(CLUSTER_NAME) \
-		-p "3000:3000@loadbalancer" \
-		-p "3001:3001@loadbalancer" \
+		-p "3000:32003@server:0" \
+		-p "3001:32307@server:0" \
 		--agents 1
 	kubectl config use-context k3d-$(CLUSTER_NAME)
 

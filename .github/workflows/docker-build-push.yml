@@ -64,6 +64,8 @@ jobs:
           file: ${{ matrix.dockerfile }}
           push: true
 
+          platforms: linux/amd64,linux/arm64 # this will create image for both cpu architecture
+
           tags: |
             imgbox/${{ matrix.service_tag }}:latest
             imgbox/${{ matrix.service_tag }}:v${{ steps.vars.outputs.version }}
