@@ -2,99 +2,47 @@ name: Docker Build and Push
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*.*.*'   # run only semantic version tags like v1.2.3
   workflow_dispatch:
 
+concurrency:
+  group: docker-build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  filter:
-    name: Check for Changes
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-      should_run: ${{ steps.set-matrix.outputs.should_run }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Path Filter
-        id: filter
-        uses: dorny/paths-filter@v3
-        with:
-          filters: |
-            api:
-              - 'apps/api-service/**'
-              - 'packages/**'
-              - 'Dockerfile.api-service'
-              - 'bun.lock'
-              - 'turbo.json'
-            engine:
-              - 'apps/engine-service/**'
-              - 'packages/**'
-              - 'Dockerfile.engine'
-              - 'bun.lock'
-              - 'turbo.json'
-            price-poller:
-              - 'apps/price-poller-service/**'
-              - 'packages/redis/**'
-              - 'Dockerfile.price-poller'
-              - 'bun.lock'
-              - 'turbo.json'
-            web:
-              - 'apps/web/**'
-              - 'packages/ui/**'
-              - 'packages/types/**'
-              - 'Dockerfile.web'
-              - 'bun.lock'
-              - 'turbo.json'
-
-      - name: Generate Matrix
-        id: set-matrix
-        run: |
-          SERVICES='[]'
-          IS_MANUAL="${{ github.event_name == 'workflow_dispatch' }}"
-          
-          add_service() {
-            SERVICES=$(echo $SERVICES | jq -c ". + [{\"service\": \"$1\", \"dockerfile\": \"$2\", \"service_tag\": \"$3\"}]")
-          }
-          
-          # Manual trigger => Build all
-          if [ "$IS_MANUAL" = "true" ]; then
-            add_service "api-service" "Dockerfile.api-service" "api"
-            add_service "engine-service" "Dockerfile.engine" "engine"
-            add_service "price-poller-service" "Dockerfile.price-poller" "price-poller"
-            add_service "web" "Dockerfile.web" "web"
-          else
-            # Push trigger => Build changed only
-            [[ "${{ steps.filter.outputs.api }}" == 'true' ]] && add_service "api-service" "Dockerfile.api-service" "api"
-            [[ "${{ steps.filter.outputs.engine }}" == 'true' ]] && add_service "engine-service" "Dockerfile.engine" "engine"
-            [[ "${{ steps.filter.outputs.price-poller }}" == 'true' ]] && add_service "price-poller-service" "Dockerfile.price-poller" "price-poller"
-            [[ "${{ steps.filter.outputs.web }}" == 'true' ]] && add_service "web" "Dockerfile.web" "web"
-          fi
-          
-          COUNT=$(echo $SERVICES | jq '. | length')
-          if [ "$COUNT" -gt 0 ]; then
-            echo "should_run=true" >> $GITHUB_OUTPUT
-            echo "matrix={\"include\":$SERVICES}" >> $GITHUB_OUTPUT
-          else
-            echo "should_run=false" >> $GITHUB_OUTPUT
-            echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
-          fi
-          
-          echo "Status: should_run=$([[ $COUNT -gt 0 ]] && echo true || echo false), count=$COUNT"
-
   build-and-push:
     name: Build & Push ${{ matrix.service }}
-    needs: filter
-    if: ${{ needs.filter.outputs.should_run == 'true' }}
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.filter.outputs.matrix) }}
+      matrix:
+        include:
+          - service: api-service
+            dockerfile: Dockerfile.api-service
+            service_tag: api
+          - service: engine-service
+            dockerfile: Dockerfile.engine
+            service_tag: engine
+          - service: price-poller-service
+            dockerfile: Dockerfile.price-poller
+            service_tag: price-poller
+          - service: web
+            dockerfile: Dockerfile.web
+            service_tag: web
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Extract version info
+        id: vars
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "major=$(echo $VERSION | cut -d. -f1)" >> $GITHUB_OUTPUT
+          echo "minor=$(echo $VERSION | cut -d. -f2)" >> $GITHUB_OUTPUT
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -109,13 +57,32 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ${{ matrix.dockerfile }}
           push: true
+
           tags: |
-            imgbox/${{ matrix.service }}:latest
-            imgbox/${{ matrix.service }}:${{ github.sha }}
+            imgbox/${{ matrix.service_tag }}:latest
+            imgbox/${{ matrix.service_tag }}:v${{ steps.vars.outputs.version }}
+            imgbox/${{ matrix.service_tag }}:v${{ steps.vars.outputs.major }}
+            imgbox/${{ matrix.service_tag }}:v${{ steps.vars.outputs.major }}.${{ steps.vars.outputs.minor }}
+
+          labels: |
+            org.opencontainers.image.source=${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.version=${{ github.ref_name }}
+
+          build-args: |
+            APP_VERSION=${{ github.ref_name }}
+
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # Security scan
+      - name: Scan image
+        uses: aquasecurity/trivy-action@v0.20.0
+        with:
+          image-ref: imgbox/${{ matrix.service_tag }}:v${{ steps.vars.outputs.version }}
