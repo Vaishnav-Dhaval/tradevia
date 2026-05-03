@@ -14,10 +14,10 @@
   "license": "ISC",
   "devDependencies": {
     "@tradevia/typescript-config": "workspace:*",
-    "@types/ws": "^8.18.1"
+    "@types/ws": "8.18.1"
   },
   "dependencies": {
     "@tradevia/redis": "workspace:*",
-    "ws": "^8.18.3"
+    "ws": "8.18.3"
   }
 }

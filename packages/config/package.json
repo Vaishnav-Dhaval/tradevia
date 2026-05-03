@@ -19,10 +19,10 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "dotenv": "^17.2.2"
+    "dotenv": "17.2.2"
   },
   "devDependencies": {
     "@tradevia/typescript-config": "workspace:*",
-    "typescript": "^5.0.0"
+    "typescript": "5.9.2"
   }
 }

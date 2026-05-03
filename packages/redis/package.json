@@ -10,11 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ioredis": "^5.7.0",
+    "ioredis": "5.7.0",
     "@tradevia/typescript-config": "workspace:*",
     "@tradevia/config": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^22.15.3"
+    "@types/node": "22.15.3"
   }
 }
